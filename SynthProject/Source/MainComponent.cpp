@@ -7,6 +7,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "GUI.h"
 
 //==============================================================================
 /*
@@ -20,9 +21,9 @@ public:
     MainContentComponent()
     {
         setSize (800, 600);
-
         // specify the number of input and output channels that we want to open
         setAudioChannels (0, 2);
+        addAndMakeVisible(GraphicalUI);
     }
 
     ~MainContentComponent()
@@ -73,6 +74,7 @@ public:
 
     void resized() override
     {
+        GraphicalUI.setBounds(0, 0, getWidth(), getHeight());
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
@@ -83,7 +85,7 @@ private:
     //==============================================================================
 
     // Your private member variables go here...
-    
+    GUI GraphicalUI;
     Synthesiser FMSynth;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
@@ -91,4 +93,4 @@ private:
 
 
 // (This function is called by the app startup code to create our main component)
-Component* createMainContentComponent()     { return new MainContentComponent(); }
+Component* createMainContentComponent(){ return new MainContentComponent(); }

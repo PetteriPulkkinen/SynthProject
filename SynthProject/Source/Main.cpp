@@ -10,6 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+
 Component* createMainContentComponent();
 
 //==============================================================================
@@ -61,10 +62,7 @@ public:
     class MainWindow    : public DocumentWindow
     {
     public:
-        MainWindow (String name)  : DocumentWindow (name,
-                                                    Desktop::getInstance().getDefaultLookAndFeel()
-                                                                          .findColour (ResizableWindow::backgroundColourId),
-                                                    DocumentWindow::allButtons)
+        MainWindow (String name)  : DocumentWindow (name,Colours::red,DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
             setContentOwned (createMainContentComponent(), true);
