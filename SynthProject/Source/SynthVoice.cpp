@@ -17,3 +17,7 @@ void FMsynthesis::setParameters(double carrierFrequency, double carrierAmlitude,
     modulator.setFrequency(modulatorFrequency);
     modulator.setAmplitude(modAmplitude);
 }
+
+// in main file:
+// FMsynthesis olio;
+// olio.setParameters(400, 1, 800, 2);
