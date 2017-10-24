@@ -3,6 +3,8 @@
 clc;
 close all;
 clear all;
+addpath('/Users/petteripulkkinen/DSP/SynthProject')
+
 
 
 % [wave, t] = myoscillator(f, duration, fs)
