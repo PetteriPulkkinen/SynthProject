@@ -41,6 +41,19 @@ plot(t2,sig3);
 title('FM signal')
 
 
+%% envelope testing
+
+%envelope(fs, a_time, d_time, s_level, s_time, r_time)
+test_sig = [sig3 sig3 sig3];
+t_test = 0: 1/fs : 1/fs * length(test_sig) - 1/fs;
+test = envelope(321,0.8, 0.6, 0.6, 1, 0.6);
+fill_test = zeros(1, length(test_sig));
+fill_test(1:length(test)) = test;
+figure()
+plot(t_test, fill_test.*test_sig);
+title('signal with envelope');
+
+
     
 
 
