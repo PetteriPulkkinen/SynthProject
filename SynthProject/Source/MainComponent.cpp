@@ -20,7 +20,7 @@ public:
     //==============================================================================
     MainContentComponent()
     {
-        setSize (800, 600);
+        setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
         setAudioChannels (0, 2);
         addAndMakeVisible(GraphicalUI);
@@ -74,7 +74,7 @@ public:
 
     void resized() override
     {
-        GraphicalUI.setBounds(0, 0, getWidth(), getHeight());
+        GraphicalUI.setBounds(0, 0, getWidth(), getHeight());		//asettaa GUI:n koko ikkunan paalle
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
