@@ -11,15 +11,24 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Oscillator.h"
+#include "SynthSound.h"
 
 
 class FMsynthesis : public SynthesiserVoice
 {
     
 public:
-    FMsynthesis(double sampleRate){
-        carrier.initialize(sampleRate);		// initialize from Oscillator.h, it's class Oscillator's method
-        modulator.initialize(sampleRate);	// therefore, carrier and modulator are objects from class Oscillator
+    FMsynthesis(){
+    }
+    
+    ~FMsynthesis(){
+    }
+    
+    void setCurrentPlaybackSampleRate(double newRate) override
+    {
+        carrier.initialize(newRate);
+        modulator.initialize(newRate);
+        sampleRate = newRate;
     }
     
     void setParameters(double carrierFreq, double carrierAmplitude, double modFreq, double modAmplitude);	// see .cpp
@@ -28,7 +37,20 @@ public:
         level = outLevel;
     }
     
+    bool canPlaySound(SynthesiserSound*) override;
+    void startNote(	int 	midiNoteNumber,
+                   float 	velocity,
+                   SynthesiserSound * 	sound,
+                   int 	currentPitchWheelPosition 
+                   ) override;
+    void stopNote(float velocity, bool allowTrailOff) override;
+    void pitchWheelMoved(int newPitchWheel) override{};
+    void controllerMoved(int controllerNumber, int newControllerValue) override{};
+    void renderNextBlock (AudioBuffer < float > &outputBuffer, int startSample, int numSamples) override;
+    
+    
 private:
     Oscillator carrier, modulator;
+    double sampleRate;
     float level;
 };

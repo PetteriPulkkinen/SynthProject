@@ -376,9 +376,6 @@
     <ClCompile Include="..\..\Source\Oscillator.cpp">
       <Filter>SynthProject\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SynthSound.cpp">
-      <Filter>SynthProject\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>SynthProject\Source</Filter>
     </ClCompile>

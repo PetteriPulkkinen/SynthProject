@@ -11,9 +11,9 @@
 #include "Oscillator.h"
 
 
-double Oscillator::getNextValue()
+const float Oscillator::getNextValue()
 {
-    double retVal = std::sin(phase+delta);
+    double retVal = amplitude*std::sin(phase+delta);
     phase += delta;
     return retVal;
 };
@@ -26,3 +26,8 @@ void Oscillator::initialize(double sampleRate)
     amplitude = 0;
     this->sampleRate = sampleRate;
 };
+
+void Oscillator::reset()
+{
+    phase = 0;
+}

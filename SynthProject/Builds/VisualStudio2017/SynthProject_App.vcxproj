@@ -146,7 +146,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Oscillator.cpp"/>
-    <ClCompile Include="..\..\Source\SynthSound.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\SynthVoice.cpp"/>
     <ClCompile Include="..\..\Source\GUI.cpp"/>

@@ -18,6 +18,45 @@ void FMsynthesis::setParameters(double carrierFrequency, double carrierAmlitude,
     modulator.setAmplitude(modAmplitude);
 }
 
+bool FMsynthesis::canPlaySound(SynthesiserSound* sound)
+{
+    return dynamic_cast<SynthSound*>(sound) != nullptr;
+}
+
+void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
+{
+    //Envelope enters attack state
+    carrier.setAmplitude(velocity);
+    carrier.setFrequency(MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+}
+
+void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
+{
+    //Envelope enters release state
+    clearCurrentNote();
+    carrier.reset();
+    modulator.reset();
+}
+
+void FMsynthesis::renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
+{
+    if (!isVoiceActive()){
+        return;
+    }
+    
+    while (--numSamples>=0){
+        const float sample = carrier.getNextValue();
+        for (int channel = outputBuffer.getNumChannels(); --channel >= 0;){
+            outputBuffer.addSample(channel, startSample, sample);
+        }
+        startSample++;
+    }
+}
+
+
+
+
+
 // in main file:
 // FMsynthesis olio;
 // olio.setParameters(400, 1, 800, 2);

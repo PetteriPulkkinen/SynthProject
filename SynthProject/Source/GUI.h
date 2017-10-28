@@ -34,7 +34,7 @@
                                                                     //[/Comments]
 */
 class GUI  : public Component,
-             public Slider::Listener		//gui tarkastelee slidereiden arvoja
+             public Slider::Listener
 {
 public:
     //==============================================================================
@@ -45,16 +45,14 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     //[/UserMethods]
 
-    void paint (Graphics& g) override;			//nama toteutetaan .cpp files
+    void paint (Graphics& g) override;
     void resized() override;
-    void sliderValueChanged (Slider* sliderThatWasMoved) override;		
+    void sliderValueChanged (Slider* sliderThatWasMoved) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    MidiKeyboardState keyboardState;
-    MidiKeyboardComponent keyboardComponent;
     //[/UserVariables]
 
     //==============================================================================

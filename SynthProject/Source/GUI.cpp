@@ -27,9 +27,10 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI () : keyboardComponent(keyboardState,MidiKeyboardComponent::horizontalKeyboard)
+GUI::GUI ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
+    
     //[/Constructor_pre]
 
     addAndMakeVisible (slider = new Slider ("new slider"));
@@ -100,7 +101,6 @@ GUI::GUI () : keyboardComponent(keyboardState,MidiKeyboardComponent::horizontalK
 
 
     //[Constructor] You can add your own custom stuff here..
-    addAndMakeVisible(keyboardComponent);
     //[/Constructor]
 }
 
@@ -109,19 +109,6 @@ GUI::~GUI()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-	//kun paattyy, voidaan poistaa gui:n listener ominaisuus
-	slider->removeListener(this);
-	slider2->removeListener(this);
-	slider3->removeListener(this);
-	slider4->removeListener(this);
-	slider5->removeListener(this);
-	slider6->removeListener(this);
-	slider7->removeListener(this);
-	slider8->removeListener(this);
-	slider9->removeListener(this);
-	slider10->removeListener(this);
-
-	//poistaa sliderit (vapauttaa resursseja)
     slider = nullptr;
     slider2 = nullptr;
     slider3 = nullptr;
@@ -170,7 +157,6 @@ void GUI::paint (Graphics& g)
                     Justification::centred, true);
     }
 
-	//vasen puoli varitetaan tummansiniseksi
     {
         int x = 0, y = 0, width = 400, height = 600;
         Colour fillColour = Colour (0xff2a7ca5);
@@ -225,27 +211,17 @@ void GUI::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-	//gui on koko maincomponentin paalla toisin sanottuna koko ikkuna, sitten asetetaan sliderit
-	//setBounds(int x, int y, int width, int height), width ja height ikaan kuin maarittelee suorakulmion
-
-	//slider1-4 on modulaattorin envelopeja (oikealla puolella)
     slider->setBounds (550, 350, 40, 110);
     slider2->setBounds (598, 350, 40, 110);
     slider3->setBounds (646, 350, 40, 110);
     slider4->setBounds (502, 350, 40, 110);
-
-	//slider5 kantoaallon oskillaattori (maaritellaan sen Hz taajuus)
     slider5->setBounds (150, 80, 200, 200);
-	//slider6 modulaattorin oskillaattori
     slider6->setBounds (550, 80, 200, 200);
-
-	//slider7-10 on kantoaallon envelopjea (vasemmalla)
     slider7->setBounds (150, 350, 40, 100);
     slider8->setBounds (198, 350, 40, 100);
     slider9->setBounds (246, 350, 40, 100);
     slider10->setBounds (102, 350, 40, 100);
     //[UserResized] Add your own custom resize handling here..
-    keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     //[/UserResized]
 }
 
@@ -253,10 +229,6 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
-
-	//tassa tarkoituksena kasitella slidereiden arvoja
-	//oskillaattorit antavat Hz arvoja, joilla luodaan output aallot
-	//envelopet kasittelee naiden aaltojen output voimakkuuksia
 
     if (sliderThatWasMoved == slider)
     {

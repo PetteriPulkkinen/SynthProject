@@ -37,7 +37,7 @@ public:
         type = waveType;
     };
     
-    double getNextValue();
+    const float getNextValue();
     
     void setFrequency(double freq){
         frequency = freq;
@@ -47,6 +47,8 @@ public:
     void setAmplitude(double amp){
         amplitude = amp;
     };
+    
+    void reset();
 
 private:
     
