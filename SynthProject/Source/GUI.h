@@ -60,12 +60,15 @@ private:
     ScopedPointer<Slider> slider2;
     ScopedPointer<Slider> slider3;
     ScopedPointer<Slider> slider4;
-    ScopedPointer<Slider> slider5;
-    ScopedPointer<Slider> slider6;
     ScopedPointer<Slider> slider7;
     ScopedPointer<Slider> slider8;
     ScopedPointer<Slider> slider9;
     ScopedPointer<Slider> slider10;
+    ScopedPointer<Slider> slider5;
+    ScopedPointer<Slider> slider12;
+    ScopedPointer<Slider> slider13;
+    ScopedPointer<Slider> slider6;
+    ScopedPointer<Slider> slider11;
 
 
     //==============================================================================

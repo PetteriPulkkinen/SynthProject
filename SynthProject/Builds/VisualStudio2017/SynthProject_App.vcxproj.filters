@@ -2151,10 +2151,10 @@
     <ClInclude Include="..\..\Source\SynthSound.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\GUI.h">
+    <ClInclude Include="..\..\Source\SynthVoice.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SynthVoice.h">
+    <ClInclude Include="..\..\Source\GUI.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Documents\juce-huckleberry-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

@@ -12,9 +12,9 @@
       <FILE id="J058gk" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="oLUE42" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
+      <FILE id="HU5JUY" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="YQFLeH" name="GUI.h" compile="0" resource="0" file="Source/GUI.h"/>
       <FILE id="pidnd3" name="GUI.cpp" compile="1" resource="0" file="Source/GUI.cpp"/>
-      <FILE id="HU5JUY" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="JCS7tu" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
   </MAINGROUP>

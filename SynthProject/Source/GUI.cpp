@@ -30,7 +30,7 @@
 GUI::GUI ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
-    
+
     //[/Constructor_pre]
 
     addAndMakeVisible (slider = new Slider ("new slider"));
@@ -57,18 +57,6 @@ GUI::GUI ()
     slider4->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     slider4->addListener (this);
 
-    addAndMakeVisible (slider5 = new Slider ("new slider"));
-    slider5->setRange (0, 10, 0);
-    slider5->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    slider5->setTextBoxStyle (Slider::TextBoxAbove, false, 80, 20);
-    slider5->addListener (this);
-
-    addAndMakeVisible (slider6 = new Slider ("new slider"));
-    slider6->setRange (0, 10, 0);
-    slider6->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    slider6->setTextBoxStyle (Slider::TextBoxAbove, false, 80, 20);
-    slider6->addListener (this);
-
     addAndMakeVisible (slider7 = new Slider ("new slider"));
     slider7->setRange (0, 10, 0);
     slider7->setSliderStyle (Slider::LinearVertical);
@@ -93,6 +81,36 @@ GUI::GUI ()
     slider10->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     slider10->addListener (this);
 
+    addAndMakeVisible (slider5 = new Slider ("new slider"));
+    slider5->setRange (0, 10, 0);
+    slider5->setSliderStyle (Slider::Rotary);
+    slider5->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider5->addListener (this);
+
+    addAndMakeVisible (slider12 = new Slider ("new slider"));
+    slider12->setRange (0, 10, 0);
+    slider12->setSliderStyle (Slider::Rotary);
+    slider12->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider12->addListener (this);
+
+    addAndMakeVisible (slider13 = new Slider ("new slider"));
+    slider13->setRange (0, 10, 0);
+    slider13->setSliderStyle (Slider::Rotary);
+    slider13->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider13->addListener (this);
+
+    addAndMakeVisible (slider6 = new Slider ("new slider"));
+    slider6->setRange (0, 10, 0);
+    slider6->setSliderStyle (Slider::Rotary);
+    slider6->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider6->addListener (this);
+
+    addAndMakeVisible (slider11 = new Slider ("new slider"));
+    slider11->setRange (0, 10, 0);
+    slider11->setSliderStyle (Slider::Rotary);
+    slider11->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider11->addListener (this);
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -113,12 +131,15 @@ GUI::~GUI()
     slider2 = nullptr;
     slider3 = nullptr;
     slider4 = nullptr;
-    slider5 = nullptr;
-    slider6 = nullptr;
     slider7 = nullptr;
     slider8 = nullptr;
     slider9 = nullptr;
     slider10 = nullptr;
+    slider5 = nullptr;
+    slider12 = nullptr;
+    slider13 = nullptr;
+    slider6 = nullptr;
+    slider11 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -131,75 +152,19 @@ void GUI::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff13c4df));
+    g.fillAll (Colour (0xff453434));
 
     {
-        int x = 470, y = 310, width = 200, height = 30;
-        String text (TRANS("ADSR Envelope"));
-        Colour fillColour = Colours::black;
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font ("Abadi MT Condensed Extra Bold", 20.00f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
-    }
-
-    {
-        int x = 112, y = 430, width = 200, height = 30;
-        String text (TRANS("ADSR Envelope"));
-        Colour fillColour = Colours::black;
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font ("Abadi MT Condensed Extra Bold", 20.00f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
-    }
-
-    {
-        int x = 0, y = 0, width = 400, height = 600;
-        Colour fillColour = Colour (0xff2a7ca5);
+        int x = -10, y = 480, width = 820, height = 130;
+        Colour fillColour = Colour (0xff262020);
+        Colour strokeColour = Colour (0xff3e323c);
         //[UserPaintCustomArguments] Customize the painting arguments here..
         //[/UserPaintCustomArguments]
         g.setColour (fillColour);
         g.fillRect (x, y, width, height);
-    }
+        g.setColour (strokeColour);
+        g.drawRect (x, y, width, height, 6);
 
-    {
-        int x = 70, y = 310, width = 200, height = 30;
-        String text (TRANS("ADSR Envelope"));
-        Colour fillColour = Colours::black;
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font ("Abadi MT Condensed Extra Bold", 20.00f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
-    }
-
-    {
-        int x = 0, y = -20, width = 400, height = 100;
-        String text (TRANS("Carrier oscillator"));
-        Colour fillColour = Colours::black;
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font ("Abadi MT Condensed Extra Bold", 40.50f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
-    }
-
-    {
-        int x = 400, y = -20, width = 400, height = 100;
-        String text (TRANS("Modulator oscillator"));
-        Colour fillColour = Colours::black;
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font ("Abadi MT Condensed Extra Bold", 40.50f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
     }
 
     //[UserPaint] Add your own custom painting code here..
@@ -211,16 +176,19 @@ void GUI::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    slider->setBounds (550, 350, 40, 110);
-    slider2->setBounds (598, 350, 40, 110);
-    slider3->setBounds (646, 350, 40, 110);
-    slider4->setBounds (502, 350, 40, 110);
-    slider5->setBounds (150, 80, 200, 200);
-    slider6->setBounds (550, 80, 200, 200);
-    slider7->setBounds (150, 350, 40, 100);
-    slider8->setBounds (198, 350, 40, 100);
-    slider9->setBounds (246, 350, 40, 100);
-    slider10->setBounds (102, 350, 40, 100);
+    slider->setBounds (598, 350, 40, 110);
+    slider2->setBounds (646, 350, 40, 110);
+    slider3->setBounds (694, 350, 40, 110);
+    slider4->setBounds (550, 350, 40, 110);
+    slider7->setBounds (86, 358, 40, 100);
+    slider8->setBounds (134, 358, 40, 100);
+    slider9->setBounds (182, 358, 40, 100);
+    slider10->setBounds (38, 358, 40, 100);
+    slider5->setBounds (56, 80, 150, 150);
+    slider12->setBounds (472, 200, 65, 65);
+    slider13->setBounds (592, 200, 65, 65);
+    slider6->setBounds (240, 200, 65, 65);
+    slider11->setBounds (240, 56, 65, 65);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -250,16 +218,6 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_slider4] -- add your slider handling code here..
         //[/UserSliderCode_slider4]
     }
-    else if (sliderThatWasMoved == slider5)
-    {
-        //[UserSliderCode_slider5] -- add your slider handling code here..
-        //[/UserSliderCode_slider5]
-    }
-    else if (sliderThatWasMoved == slider6)
-    {
-        //[UserSliderCode_slider6] -- add your slider handling code here..
-        //[/UserSliderCode_slider6]
-    }
     else if (sliderThatWasMoved == slider7)
     {
         //[UserSliderCode_slider7] -- add your slider handling code here..
@@ -279,6 +237,31 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_slider10] -- add your slider handling code here..
         //[/UserSliderCode_slider10]
+    }
+    else if (sliderThatWasMoved == slider5)
+    {
+        //[UserSliderCode_slider5] -- add your slider handling code here..
+        //[/UserSliderCode_slider5]
+    }
+    else if (sliderThatWasMoved == slider12)
+    {
+        //[UserSliderCode_slider12] -- add your slider handling code here..
+        //[/UserSliderCode_slider12]
+    }
+    else if (sliderThatWasMoved == slider13)
+    {
+        //[UserSliderCode_slider13] -- add your slider handling code here..
+        //[/UserSliderCode_slider13]
+    }
+    else if (sliderThatWasMoved == slider6)
+    {
+        //[UserSliderCode_slider6] -- add your slider handling code here..
+        //[/UserSliderCode_slider6]
+    }
+    else if (sliderThatWasMoved == slider11)
+    {
+        //[UserSliderCode_slider11] -- add your slider handling code here..
+        //[/UserSliderCode_slider11]
     }
 
     //[UsersliderValueChanged_Post]
@@ -304,73 +287,69 @@ BEGIN_JUCER_METADATA
                  constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330" fixedSize="1" initialWidth="800"
                  initialHeight="600">
-  <BACKGROUND backgroundColour="ff13c4df">
-    <TEXT pos="470 310 200 30" fill="solid: ff000000" hasStroke="0" text="ADSR Envelope"
-          fontname="Abadi MT Condensed Extra Bold" fontsize="20" kerning="0"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="112 430 200 30" fill="solid: ff000000" hasStroke="0" text="ADSR Envelope"
-          fontname="Abadi MT Condensed Extra Bold" fontsize="20" kerning="0"
-          bold="0" italic="0" justification="36"/>
-    <RECT pos="0 0 400 600" fill="solid: ff2a7ca5" hasStroke="0"/>
-    <TEXT pos="70 310 200 30" fill="solid: ff000000" hasStroke="0" text="ADSR Envelope"
-          fontname="Abadi MT Condensed Extra Bold" fontsize="20" kerning="0"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="0 -20 400 100" fill="solid: ff000000" hasStroke="0" text="Carrier oscillator"
-          fontname="Abadi MT Condensed Extra Bold" fontsize="40.5" kerning="0"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="400 -20 400 100" fill="solid: ff000000" hasStroke="0" text="Modulator oscillator"
-          fontname="Abadi MT Condensed Extra Bold" fontsize="40.5" kerning="0"
-          bold="0" italic="0" justification="36"/>
+  <BACKGROUND backgroundColour="ff453434">
+    <RECT pos="-10 480 820 130" fill="solid: ff262020" hasStroke="1" stroke="6.2, mitered, butt"
+          strokeColour="solid: ff3e323c"/>
   </BACKGROUND>
   <SLIDER name="new slider" id="63bd38afd51ecc43" memberName="slider" virtualName=""
-          explicitFocusOrder="0" pos="550 350 40 110" min="0" max="10"
+          explicitFocusOrder="0" pos="598 350 40 110" min="0" max="10"
           int="0" style="LinearVertical" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
   <SLIDER name="new slider" id="405706fe9d67c034" memberName="slider2"
-          virtualName="" explicitFocusOrder="0" pos="598 350 40 110" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
-          needsCallback="1"/>
-  <SLIDER name="new slider" id="f8ae9f1895e9f7cb" memberName="slider3"
           virtualName="" explicitFocusOrder="0" pos="646 350 40 110" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="55065483c5cfda78" memberName="slider4"
-          virtualName="" explicitFocusOrder="0" pos="502 350 40 110" min="0"
+  <SLIDER name="new slider" id="f8ae9f1895e9f7cb" memberName="slider3"
+          virtualName="" explicitFocusOrder="0" pos="694 350 40 110" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="4bfad33959fb91f3" memberName="slider5"
-          virtualName="" explicitFocusOrder="0" pos="150 80 200 200" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxAbove"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
-          needsCallback="1"/>
-  <SLIDER name="new slider" id="85b696850eea04b4" memberName="slider6"
-          virtualName="" explicitFocusOrder="0" pos="550 80 200 200" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxAbove"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="new slider" id="55065483c5cfda78" memberName="slider4"
+          virtualName="" explicitFocusOrder="0" pos="550 350 40 110" min="0"
+          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="4ff5356e4f65685c" memberName="slider7"
-          virtualName="" explicitFocusOrder="0" pos="150 350 40 100" min="0"
+          virtualName="" explicitFocusOrder="0" pos="86 358 40 100" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="57947018b5f68fb1" memberName="slider8"
-          virtualName="" explicitFocusOrder="0" pos="198 350 40 100" min="0"
+          virtualName="" explicitFocusOrder="0" pos="134 358 40 100" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="a84ab44e65d8e2a3" memberName="slider9"
-          virtualName="" explicitFocusOrder="0" pos="246 350 40 100" min="0"
+          virtualName="" explicitFocusOrder="0" pos="182 358 40 100" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="8b3f507f3e828678" memberName="slider10"
-          virtualName="" explicitFocusOrder="0" pos="102 350 40 100" min="0"
+          virtualName="" explicitFocusOrder="0" pos="38 358 40 100" min="0"
           max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
+  <SLIDER name="new slider" id="c00cedec3bec0b3a" memberName="slider5"
+          virtualName="" explicitFocusOrder="0" pos="56 80 150 150" min="0"
+          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <SLIDER name="new slider" id="67919200e11f9bf" memberName="slider12"
+          virtualName="" explicitFocusOrder="0" pos="472 200 65 65" min="0"
+          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <SLIDER name="new slider" id="b1e16e36f222738c" memberName="slider13"
+          virtualName="" explicitFocusOrder="0" pos="592 200 65 65" min="0"
+          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <SLIDER name="new slider" id="c16b303c43bf1bf5" memberName="slider6"
+          virtualName="" explicitFocusOrder="0" pos="240 200 65 65" min="0"
+          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <SLIDER name="new slider" id="c7e3cca1ca161860" memberName="slider11"
+          virtualName="" explicitFocusOrder="0" pos="240 56 65 65" min="0"
+          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

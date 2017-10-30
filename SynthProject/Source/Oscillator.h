@@ -48,6 +48,10 @@ public:
         amplitude = amp;
     };
     
+    const double getFrequency() const{
+        return frequency;
+    }
+    
     void reset();
 
 private:

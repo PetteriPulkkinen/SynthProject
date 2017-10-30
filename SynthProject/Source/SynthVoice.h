@@ -31,8 +31,6 @@ public:
         sampleRate = newRate;
     }
     
-    void setParameters(double carrierFreq, double carrierAmplitude, double modFreq, double modAmplitude);	// see .cpp
-    
     void setOutputLevel(float outLevel){
         level = outLevel;
     }
@@ -51,6 +49,7 @@ public:
     
 private:
     Oscillator carrier, modulator;
+    double carrierFrequency;
     double sampleRate;
     float level;
 };

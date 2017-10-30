@@ -60,6 +60,12 @@ public:
     {
         midiCollector.reset(sampleRate);
         FMSynth.setCurrentPlaybackSampleRate(sampleRate);
+        double cutoff = 1000;
+        double Q = 1;
+        IIRCoefficients coefficients  = IIRCoefficients::makeLowPass(sampleRate, cutoff, Q);
+        
+        filterR.setCoefficients(coefficients);
+        filterL.setCoefficients(coefficients);
     }
     
     void releaseResources() override
@@ -76,7 +82,15 @@ public:
         keyboardState.processNextMidiBuffer(incomingMidi, 0, bufferToFill.numSamples, true);
         
         FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
+        
+        filterL.processSamples(bufferToFill.buffer->getWritePointer(0, 0), bufferToFill.numSamples);
+        filterR.processSamples(bufferToFill.buffer->getWritePointer(1, 0), bufferToFill.numSamples);
+        /*
+        for (int i = 0; i < 5; i++){
+           std::cout << filterL.getCoefficients().coefficients[i] << std::endl;
         }
+        */
+    }
 
     //==============================================================================
     void paint (Graphics& g) override
@@ -106,6 +120,10 @@ private:
     MidiKeyboardComponent keyboardComponent;
     MidiMessageCollector midiCollector;
     Synthesiser FMSynth;
+    IIRFilter filterR;
+    IIRFilter filterL;
+    
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
