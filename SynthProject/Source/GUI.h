@@ -43,7 +43,12 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void init(Synthesiser* synth);
+    
+    /* In this method you give all devices you want to modify from MainComponent. */
+     
+    void init(Synthesiser* synth){
+        this->synth = synth;
+    }
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -54,7 +59,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    Synthesiser* synthesizer;
+    Synthesiser* synth;
     //[/UserVariables]
 
     //==============================================================================

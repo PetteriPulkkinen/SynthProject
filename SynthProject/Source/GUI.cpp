@@ -256,9 +256,8 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == MGslider)
     {
         //[UserSliderCode_MGslider] -- add your slider handling code here..
-        
-        for (int i = 0; i < synthesizer->getNumVoices(); i++){
-            FMsynthesis* voice = (FMsynthesis*) synthesizer->getVoice(i);
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
             voice->getModulator().setGain(MGslider->getValue());
         }
         //[/UserSliderCode_MGslider]
@@ -266,8 +265,8 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == CGslider)
     {
         //[UserSliderCode_CGslider] -- add your slider handling code here..
-        for (int i = 0; i < synthesizer->getNumVoices();i++){
-            FMsynthesis* voice = (FMsynthesis*) synthesizer->getVoice(i);
+        for (int i = 0; i < synth->getNumVoices();i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
             voice->getModulator().setGain(CGslider->getValue());
         }
         //[/UserSliderCode_CGslider]
@@ -280,9 +279,6 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-void GUI::init(Synthesiser* synth){
-    this->synthesizer = synth;
-}
 //[/MiscUserCode]
 
 

@@ -16,10 +16,12 @@ const float Oscillator::getNextValue()
     double retVal = gain*std::sin(phase+delta);
     
     //Do waveform compressing if needed (if gain is over one)
-    if (std::abs(retVal) > 1){
+    if (retVal > 1){
         retVal = 1;
     }
-
+    else if (retVal < -1){
+        retVal = -1;
+    }
     phase += delta;
     return amplitude*retVal;
 };

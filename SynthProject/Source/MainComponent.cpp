@@ -26,7 +26,8 @@ public:
         setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
         addAndMakeVisible(GraphicalUI);
-        GraphicalUI.init(this);
+        GraphicalUI.init(&FMSynth);
+        
         addAndMakeVisible(keyboardComponent);
         
         
@@ -110,10 +111,6 @@ public:
         // If you add any child components, this is where you should
         // update their positions.
         keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
-    }
-    
-    Synthesiser& getSynth(){
-        return FMSynth;
     }
     
     
