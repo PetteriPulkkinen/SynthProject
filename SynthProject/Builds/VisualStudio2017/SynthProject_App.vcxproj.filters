@@ -2145,9 +2145,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\FMsynth.h">
-      <Filter>SynthProject\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Oscillator.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>
