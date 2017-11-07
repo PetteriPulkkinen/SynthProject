@@ -46,6 +46,13 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override{};
     void renderNextBlock (AudioBuffer < float > &outputBuffer, int startSample, int numSamples) override;
     
+    Oscillator& getCarrier() {
+        return carrier;
+    }
+    
+    Oscillator& getModulator() {
+        return modulator;
+    }
     
 private:
     Oscillator carrier, modulator;

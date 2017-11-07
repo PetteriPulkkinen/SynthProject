@@ -43,6 +43,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void init(Synthesiser* synth);
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -53,6 +54,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    Synthesiser* synthesizer;
     //[/UserVariables]
 
     //==============================================================================
@@ -67,8 +69,8 @@ private:
     ScopedPointer<Slider> slider5;
     ScopedPointer<Slider> slider12;
     ScopedPointer<Slider> slider13;
-    ScopedPointer<Slider> slider6;
-    ScopedPointer<Slider> slider11;
+    ScopedPointer<Slider> MGslider;
+    ScopedPointer<Slider> CGslider;
 
 
     //==============================================================================

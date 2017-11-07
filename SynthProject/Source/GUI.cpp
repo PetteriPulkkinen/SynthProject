@@ -21,6 +21,7 @@
 //[/Headers]
 
 #include "GUI.h"
+#include "SynthVoice.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
@@ -30,7 +31,6 @@
 GUI::GUI ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
-
     //[/Constructor_pre]
 
     addAndMakeVisible (slider = new Slider ("new slider"));
@@ -99,17 +99,17 @@ GUI::GUI ()
     slider13->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     slider13->addListener (this);
 
-    addAndMakeVisible (slider6 = new Slider ("new slider"));
-    slider6->setRange (0, 10, 0);
-    slider6->setSliderStyle (Slider::Rotary);
-    slider6->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    slider6->addListener (this);
+    addAndMakeVisible (MGslider = new Slider ("ModulatorGain"));
+    MGslider->setRange (1, 10, 0);
+    MGslider->setSliderStyle (Slider::Rotary);
+    MGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    MGslider->addListener (this);
 
-    addAndMakeVisible (slider11 = new Slider ("new slider"));
-    slider11->setRange (0, 10, 0);
-    slider11->setSliderStyle (Slider::Rotary);
-    slider11->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    slider11->addListener (this);
+    addAndMakeVisible (CGslider = new Slider ("CarrierGain"));
+    CGslider->setRange (1, 10, 0);
+    CGslider->setSliderStyle (Slider::Rotary);
+    CGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    CGslider->addListener (this);
 
 
     //[UserPreSize]
@@ -138,8 +138,8 @@ GUI::~GUI()
     slider5 = nullptr;
     slider12 = nullptr;
     slider13 = nullptr;
-    slider6 = nullptr;
-    slider11 = nullptr;
+    MGslider = nullptr;
+    CGslider = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -187,8 +187,8 @@ void GUI::resized()
     slider5->setBounds (56, 80, 150, 150);
     slider12->setBounds (472, 200, 65, 65);
     slider13->setBounds (592, 200, 65, 65);
-    slider6->setBounds (240, 200, 65, 65);
-    slider11->setBounds (240, 56, 65, 65);
+    MGslider->setBounds (240, 200, 65, 65);
+    CGslider->setBounds (240, 56, 65, 65);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -253,15 +253,24 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_slider13] -- add your slider handling code here..
         //[/UserSliderCode_slider13]
     }
-    else if (sliderThatWasMoved == slider6)
+    else if (sliderThatWasMoved == MGslider)
     {
-        //[UserSliderCode_slider6] -- add your slider handling code here..
-        //[/UserSliderCode_slider6]
+        //[UserSliderCode_MGslider] -- add your slider handling code here..
+        
+        for (int i = 0; i < synthesizer->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synthesizer->getVoice(i);
+            voice->getModulator().setGain(MGslider->getValue());
+        }
+        //[/UserSliderCode_MGslider]
     }
-    else if (sliderThatWasMoved == slider11)
+    else if (sliderThatWasMoved == CGslider)
     {
-        //[UserSliderCode_slider11] -- add your slider handling code here..
-        //[/UserSliderCode_slider11]
+        //[UserSliderCode_CGslider] -- add your slider handling code here..
+        for (int i = 0; i < synthesizer->getNumVoices();i++){
+            FMsynthesis* voice = (FMsynthesis*) synthesizer->getVoice(i);
+            voice->getModulator().setGain(CGslider->getValue());
+        }
+        //[/UserSliderCode_CGslider]
     }
 
     //[UsersliderValueChanged_Post]
@@ -271,6 +280,9 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+void GUI::init(Synthesiser* synth){
+    this->synthesizer = synth;
+}
 //[/MiscUserCode]
 
 
@@ -342,12 +354,12 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="592 200 65 65" min="0"
           max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
-  <SLIDER name="new slider" id="c16b303c43bf1bf5" memberName="slider6"
-          virtualName="" explicitFocusOrder="0" pos="240 200 65 65" min="0"
+  <SLIDER name="ModulatorGain" id="c16b303c43bf1bf5" memberName="MGslider"
+          virtualName="" explicitFocusOrder="0" pos="240 200 65 65" min="1"
           max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
-  <SLIDER name="new slider" id="c7e3cca1ca161860" memberName="slider11"
-          virtualName="" explicitFocusOrder="0" pos="240 56 65 65" min="0"
+  <SLIDER name="CarrierGain" id="c7e3cca1ca161860" memberName="CGslider"
+          virtualName="" explicitFocusOrder="0" pos="240 56 65 65" min="1"
           max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
 </JUCER_COMPONENT>

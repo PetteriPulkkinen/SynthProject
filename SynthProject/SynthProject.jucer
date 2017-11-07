@@ -6,6 +6,7 @@
               cppLanguageStandard="11" jucerVersion="5.1.2">
   <MAINGROUP id="LOHpgk" name="SynthProject">
     <GROUP id="{4FC817DB-4556-D5AF-D781-E3A6B91D0332}" name="Source">
+      <FILE id="XgJql4" name="FMsynth.h" compile="0" resource="0" file="Source/FMsynth.h"/>
       <FILE id="IK6Eqp" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
       <FILE id="q4N4JN" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="CvbDjP" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>

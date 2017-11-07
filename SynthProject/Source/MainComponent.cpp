@@ -26,7 +26,9 @@ public:
         setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
         addAndMakeVisible(GraphicalUI);
+        GraphicalUI.init(this);
         addAndMakeVisible(keyboardComponent);
+        
         
         FMSynth.addVoice(new FMsynthesis());
         FMSynth.addVoice(new FMsynthesis());
@@ -109,7 +111,11 @@ public:
         // update their positions.
         keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     }
-
+    
+    Synthesiser& getSynth(){
+        return FMSynth;
+    }
+    
     
 private:
     //==============================================================================
@@ -120,6 +126,7 @@ private:
     MidiKeyboardComponent keyboardComponent;
     MidiMessageCollector midiCollector;
     Synthesiser FMSynth;
+    
     IIRFilter filterR;
     IIRFilter filterL;
     

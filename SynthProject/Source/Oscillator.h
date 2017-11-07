@@ -15,6 +15,7 @@
 #endif
 
 #include <cmath>
+#include <exception>
 
 /*#define _USE_MATH_DEFINES // for C++  
 #include <cmath>*/ 
@@ -26,16 +27,6 @@ public:
     Oscillator(){}
     
     void initialize(double sampleRate);
-    
-    enum wavetype {
-        SINEWAVE = 0,
-        RECTWAVE,
-        TRIANGLEWAVE,
-    };
-    
-    void setType(wavetype waveType){
-        type = waveType;
-    };
     
     const float getNextValue();
     
@@ -52,14 +43,19 @@ public:
         return frequency;
     }
     
+    void setGain(double newGain);
+    const double& getGain() const {
+        return gain;
+    }
+    
     void reset();
 
 private:
     
-    float amplitude;
+    double amplitude;
     double frequency;
     double phase;
     double sampleRate;
     double delta;
-    wavetype type;
+    double gain;
 };
