@@ -13,6 +13,8 @@
 #include "Oscillator.h"
 #include "SynthSound.h"
 
+// ks. https://juce.com/doc/classSynthesiserVoice
+
 
 class FMsynthesis : public SynthesiserVoice
 {

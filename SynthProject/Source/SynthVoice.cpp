@@ -22,7 +22,7 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
     carrierFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     
     modulator.setAmplitude(4400);
-    modulator.setFrequency(carrierFrequency);
+    modulator.setFrequency(carrierFrequency);	// sama kuin carrier koska alkutilanne (?)
     carrier.setAmplitude(velocity);
     carrier.setFrequency(carrierFrequency);
 }
@@ -39,6 +39,8 @@ void FMsynthesis::renderNextBlock (AudioBuffer <float> &outputBuffer, int startS
         return;
     }
     
+	// ks. getNextvalue Oscillator.cpp:sta. Moduloiva aalto "muokkaa" kantoaaltoo, siksi carrierin freq muokataan
+	// toisin sanottuna, kyseessa on fm-aalto
     while (--numSamples>=0){
         carrier.setFrequency(carrierFrequency+modulator.getNextValue());
         const float sample = carrier.getNextValue();

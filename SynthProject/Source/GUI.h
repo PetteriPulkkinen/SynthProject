@@ -46,6 +46,8 @@ public:
     
     /* In this method you give all devices you want to modify from MainComponent. */
      
+	// synan pointteri, ks. https://juce.com/doc/classSynthesiser
+	// tietty luotu aani saadaan synth->getVoice(i)
     void init(Synthesiser* synth){
         this->synth = synth;
     }

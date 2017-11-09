@@ -30,7 +30,7 @@ public:
         
         addAndMakeVisible(keyboardComponent);
         
-        
+        // ks. https://juce.com/doc/classSynthesiser
         FMSynth.addVoice(new FMsynthesis());
         FMSynth.addVoice(new FMsynthesis());
         FMSynth.addVoice(new FMsynthesis());
@@ -39,8 +39,10 @@ public:
         FMSynth.clearSounds();
         FMSynth.addSound(new SynthSound());
         
+		// listaa kaikki tarjolla olevat midi laitteet
         const StringArray midiInputs(MidiInput::getDevices());
         
+		// asettaa midi laitteen tähän että se ottaa sen inputit
         for (int i = 0; i < midiInputs.size(); i++){
             if (!deviceManager.isMidiInputEnabled(midiInputs[i])){
                 std::cout << midiInputs[i] << std::endl;
@@ -63,10 +65,15 @@ public:
     {
         midiCollector.reset(sampleRate);
         FMSynth.setCurrentPlaybackSampleRate(sampleRate);
-        double cutoff = 1000;
+		// cutoff ja Q ei oo private variable (eli niihin paastaan myos filen ulkopuolella (?))
+		// mutta toisaalta tassa on kyse prepareToPlay eli niiden muuttaminen lennosta...?
+        double cutoff = 1000;		
         double Q = 1;
+
+		// ks. https://juce.com/doc/classIIRCoefficients 
+		// palauttaa lowpassin parametrit
         IIRCoefficients coefficients  = IIRCoefficients::makeLowPass(sampleRate, cutoff, Q);
-        
+        // luodaan lowpass filterit
         filterR.setCoefficients(coefficients);
         filterL.setCoefficients(coefficients);
     }
@@ -78,14 +85,14 @@ public:
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
         bufferToFill.clearActiveBufferRegion();
-        
+        // midi buffer muuttujan teko koska tarvitaan metodin parametriksi
         MidiBuffer incomingMidi;
         midiCollector.removeNextBlockOfMessages(incomingMidi, bufferToFill.numSamples);
         
         keyboardState.processNextMidiBuffer(incomingMidi, 0, bufferToFill.numSamples, true);
-        
+        // audio-äänen teko (renderextBlock jokaisella loopilla, ks. Synthvoice.cpp ja sit oscillator.cpp)
         FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
-        
+        // ja lopuksi niiden filterointi (processSamples)
         filterL.processSamples(bufferToFill.buffer->getWritePointer(0, 0), bufferToFill.numSamples);
         filterR.processSamples(bufferToFill.buffer->getWritePointer(1, 0), bufferToFill.numSamples);
         /*
@@ -119,11 +126,14 @@ private:
 
     // Your private member variables go here...
     GUI GraphicalUI;
-    MidiKeyboardState keyboardState;
-    MidiKeyboardComponent keyboardComponent;
+    MidiKeyboardState keyboardState;			// midi komponentin näppäinten tila
+    MidiKeyboardComponent keyboardComponent;	// midi komponentti
     MidiMessageCollector midiCollector;
+	// ks. https://juce.com/doc/classSynthesiser
     Synthesiser FMSynth;
     
+	// ks. https://juce.com/doc/classIIRFilter 
+	// ei luoda konstruktorissa mutta preparetoplayssa (why?)
     IIRFilter filterR;
     IIRFilter filterL;
     

@@ -33,10 +33,17 @@ GUI::GUI ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
+
+	// olkoon tama amplitudi slider (hetkellisesti)
+	// oletusarvo 4400 (koska amplitudi maaritelty 4400 synthvoice.cpp:ssa), eli rangedii pitaisi muuttaa
+	// testaa koulus poistamalla "//"
+
     addAndMakeVisible (slider = new Slider ("new slider"));
     slider->setRange (0, 10, 0);
+	// slider->setRange (0, 20000, 0);	// 0-20000 alustavasti, korvaa ylempi
     slider->setSliderStyle (Slider::LinearVertical);
     slider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+	//slider->setValue(4400);
     slider->addListener (this);
 
     addAndMakeVisible (slider2 = new Slider ("new slider"));
@@ -201,6 +208,15 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     if (sliderThatWasMoved == slider)
     {
         //[UserSliderCode_slider] -- add your slider handling code here..
+		// ks. SynthVoice.h (getModulator palauttaa moduloivan aallon) ja sitten Oscillator.h
+		// getVoice on Synthesiser luokan metodi, palauttaa luodun aanen MainComponentissa (4kpl)
+		// testaa poistamal kommentit
+		/*
+		for (int i = 0; i < synth->getNumVoices(); i++) {
+			FMsynthesis* voice = (FMsynthesis*)synth->getVoice(i);
+			voice->getModulator().setAmplitude(slider->getValue());
+		}
+		*/
         //[/UserSliderCode_slider]
     }
     else if (sliderThatWasMoved == slider2)

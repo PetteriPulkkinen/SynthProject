@@ -13,6 +13,7 @@
 
 const float Oscillator::getNextValue()
 {
+	// ottaa siis siniaallon arvoja paloittain. Uusi phase lopussa on seuraavaa kutsua varten
     double retVal = gain*std::sin(phase+delta);
     
     //Do waveform compressing if needed (if gain is over one)
