@@ -46,11 +46,24 @@ public:
     
     /* In this method you give all devices you want to modify from MainComponent. */
      
+	// init function for GUI which could be used to transfer device pointers from mainComponent to GUI.
 	// synan pointteri, ks. https://juce.com/doc/classSynthesiser
 	// tietty luotu aani saadaan synth->getVoice(i)
     void init(Synthesiser* synth){
         this->synth = synth;
     }
+	// samalla tavalla tuodaan filterit ja samplin rate
+	void init2(IIRFilter* r) {
+		this->filterRR = r;
+	}
+	void init3(IIRFilter* l) {
+		this->filterLL = l;
+	}
+	void init4(double* s) {
+		this->samplausrate = s;
+	}
+
+
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -62,9 +75,22 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Synthesiser* synth;
+
+	// testing to pass cutoff and Q for filter
+
+
+	double cutofff;	// additional f at end to distinguish from mainComponent's variable
+	double QQ;
+	IIRFilter* filterRR;
+	IIRFilter* filterLL;
+	double* samplausrate;	// double pointteri ja pelkka "samplausrate" palauttaa muistiosoitteen joka on tyyliin 00x.... 
+							// itse double arvo saadaan ottamalla *samplausrate (?)
+
+
     //[/UserVariables]
 
     //==============================================================================
+	// sliderit pointtereina
     ScopedPointer<Slider> slider;
     ScopedPointer<Slider> slider2;
     ScopedPointer<Slider> slider3;

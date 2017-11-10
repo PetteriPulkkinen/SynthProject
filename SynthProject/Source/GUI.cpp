@@ -86,26 +86,35 @@ GUI::GUI ()
 
 	// olkoon tama (hetkellisesti) amplitudi slider joka muokkaa moduloivan signaalin amplitudia
     addAndMakeVisible (slider5 = new Slider ("new slider"));
-	slider5->setRange (0, 80000, 0);	// 0-80000 alustavasti
+	slider5->setRange (0, 80000, 0);	// 0-80000 alustavasti (voisi viela muuttaa kaytannonlaheisemmaksi)
     slider5->setSliderStyle (Slider::Rotary);
     slider5->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);	// dont use "textboxabove" because testing voice becomes painful
     slider5->addListener (this);
 
 	// olkoon tama (hetkellisesti) cut-off slider joka muokkaa filterin cut-off -taajuuden
 	// cutoff taajuus on se taajuus-kohta jossa signaali suodatetaan
+	// raja-ehto: (frequency > 0.0 && frequency <= sampleRate * 0.5);
+	// eli cut-off pitaa olla suurempi kuin 0, mutta korkeintaan puolet sampling ratest 
     addAndMakeVisible (slider12 = new Slider ("new slider"));
-    slider12->setRange (0, 10, 0);
+    slider12->setRange (0.001, 44100, 0);		// koitetaan CD-laatuisella taajuudella 
+												// HUOM! tuo 44100 on liikaa, pitaisi olla puolet sampling ratest. 
+												// Error kun slider12 liikutetaan suuremmaksi	
+
+	// slider12->setRange(0.001, (*samplausrate)*0.5, 0);		// jos koittaa talla tavoin, niin tulee buildaus error
     slider12->setSliderStyle (Slider::Rotary);
     slider12->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+	slider12->setValue(1000, dontSendNotification);		// koska alustettiin prepareToPlayssa cutoff=1000 Maincomponent.cpp:s 
     slider12->addListener (this);
 
 	// olkoon tama (hetkellisesti) Q slider joka muokkaa filterin Q-arvon
 	// Q measures how good circuit is. the higher the Q -> the sharper the peak
 	// ks. esimerkki https://electronics.stackexchange.com/questions/221887/does-q-factor-matter-for-low-pass-and-high-pass-filters
+	// Q:n pitaa olla >0 tai muuten tulee erroria slideria liikuttaessa, siksi setrange(0.001, 10, 0);
     addAndMakeVisible (slider13 = new Slider ("new slider"));
-    slider13->setRange (0, 10, 0);
+    slider13->setRange (0.001, 10, 0);
     slider13->setSliderStyle (Slider::Rotary);
     slider13->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+	slider13->setValue(1, dontSendNotification);		// koska alustettiin prepareToPlayssa Q=1 Maincomponent.cpp:s
     slider13->addListener (this);
 
     addAndMakeVisible (MGslider = new Slider ("ModulatorGain"));
@@ -322,11 +331,32 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == slider12)
     {
         //[UserSliderCode_slider12] -- add your slider handling code here..
+		// uudet filterit luodaan taman muutoksen myota
+		/* 
+		error tulee kun koittaa liikuttaa slideria, tassa ovat raja-ehdot:
+		(sampleRate > 0.0);
+		(frequency > 0.0 && frequency <= sampleRate * 0.5);
+		jassert (Q > 0.0);
+		*/
+		// nyt on suurin osa erroreista hoidettu slidereiden setRangedilla PAITSI tuo <= sampleRate*0.5, 
+		// eli errorii tulee jos slider12 vaannetaan yli 0.5*samplerate
+		cutofff = slider12->getValue();
+		QQ = slider13->getValue();		// luetaan samalla QQ:lle arvo, jotta se ois varmasti alustettu (jos ei oo alustettu, niin error)
+		IIRCoefficients coefficients = IIRCoefficients::makeLowPass(*samplausrate, cutofff, QQ);
+		// right ja left filtereiden teko, nama pitaisi paivittya MainComponenttiin getNextAudioblockin edetessa
+		(*filterRR).setCoefficients(coefficients);
+		(*filterLL).setCoefficients(coefficients);
         //[/UserSliderCode_slider12]
     }
     else if (sliderThatWasMoved == slider13)
     {
         //[UserSliderCode_slider13] -- add your slider handling code here..
+		// hieman sama homma kuin slider12 tapauksessa
+		QQ = slider13->getValue();
+		cutofff = slider12->getValue();		// luetaan samalla cutoffille arvo, jotta se ois varmasti alustettu
+		IIRCoefficients coefficients = IIRCoefficients::makeLowPass(*samplausrate, cutofff, QQ);
+		(*filterRR).setCoefficients(coefficients);
+		(*filterLL).setCoefficients(coefficients);
         //[/UserSliderCode_slider13]
     }
     else if (sliderThatWasMoved == MGslider)

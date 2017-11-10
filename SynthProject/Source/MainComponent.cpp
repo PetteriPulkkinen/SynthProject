@@ -26,7 +26,11 @@ public:
         setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
         addAndMakeVisible(GraphicalUI);
+		// GUI:n pointterin arvot tahan
         GraphicalUI.init(&FMSynth);
+		GraphicalUI.init2(&filterR);
+		GraphicalUI.init3(&filterL);
+		GraphicalUI.init4(&samplausrate);
         
         addAndMakeVisible(keyboardComponent);
         
@@ -69,6 +73,7 @@ public:
 		// mutta toisaalta tassa on kyse prepareToPlay eli niiden muuttaminen lennosta...?
         double cutoff = 1000;		
         double Q = 1;
+		samplausrate = sampleRate;
 
 		// ks. https://juce.com/doc/classIIRCoefficients 
 		// palauttaa lowpassin parametrit
@@ -133,9 +138,11 @@ private:
     Synthesiser FMSynth;
     
 	// ks. https://juce.com/doc/classIIRFilter 
-	// ei luoda konstruktorissa mutta preparetoplayssa (why?)
+	// ei luoda konstruktorissa mutta preparetoplayssa (why? samplerate?)
     IIRFilter filterR;
     IIRFilter filterL;
+	// otetaan arvo talteen jotta voidaan kasitella GUI:n filterissa
+	double samplausrate;
     
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
