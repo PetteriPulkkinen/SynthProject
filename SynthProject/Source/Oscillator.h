@@ -57,4 +57,6 @@ private:
     double sampleRate;
     double delta;
     double gain;
+    
+    Envelope ADSR;
 };

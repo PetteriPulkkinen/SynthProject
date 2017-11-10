@@ -19,6 +19,7 @@ bool FMsynthesis::canPlaySound(SynthesiserSound* sound)
 void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
     //Envelope enters attack state
+    //carrier.ADSR.startStage(Envelope::ATTACK);
     carrierFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     // I commented line below out so it only takes values from slider5
     //modulator.setAmplitude(4400);				
@@ -30,6 +31,7 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
 {
     //Envelope enters release state
+    //carrier.ADSR.startStage(Envelope::RELEASE);
     clearCurrentNote();
 }
 
