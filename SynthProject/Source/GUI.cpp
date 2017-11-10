@@ -34,16 +34,12 @@ GUI::GUI ()
     //[/Constructor_pre]
 
 
-	// olkoon tama amplitudi slider (hetkellisesti)
-	// oletusarvo 4400 (koska amplitudi maaritelty 4400 synthvoice.cpp:ssa), eli rangedii pitaisi muuttaa
-	// testaa koulus poistamalla "//"
+
 
     addAndMakeVisible (slider = new Slider ("new slider"));
     slider->setRange (0, 10, 0);
-	// slider->setRange (0, 20000, 0);	// 0-20000 alustavasti, korvaa ylempi
     slider->setSliderStyle (Slider::LinearVertical);
     slider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-	//slider->setValue(4400);
     slider->addListener (this);
 
     addAndMakeVisible (slider2 = new Slider ("new slider"));
@@ -88,18 +84,24 @@ GUI::GUI ()
     slider10->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     slider10->addListener (this);
 
+	// olkoon tama (hetkellisesti) amplitudi slider joka muokkaa moduloivan signaalin amplitudia
     addAndMakeVisible (slider5 = new Slider ("new slider"));
-    slider5->setRange (0, 10, 0);
+	slider5->setRange (0, 80000, 0);	// 0-80000 alustavasti
     slider5->setSliderStyle (Slider::Rotary);
-    slider5->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider5->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);	// dont use "textboxabove" because testing voice becomes painful
     slider5->addListener (this);
 
+	// olkoon tama (hetkellisesti) cut-off slider joka muokkaa filterin cut-off -taajuuden
+	// cutoff taajuus on se taajuus-kohta jossa signaali suodatetaan
     addAndMakeVisible (slider12 = new Slider ("new slider"));
     slider12->setRange (0, 10, 0);
     slider12->setSliderStyle (Slider::Rotary);
     slider12->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     slider12->addListener (this);
 
+	// olkoon tama (hetkellisesti) Q slider joka muokkaa filterin Q-arvon
+	// Q measures how good circuit is. the higher the Q -> the sharper the peak
+	// ks. esimerkki https://electronics.stackexchange.com/questions/221887/does-q-factor-matter-for-low-pass-and-high-pass-filters
     addAndMakeVisible (slider13 = new Slider ("new slider"));
     slider13->setRange (0, 10, 0);
     slider13->setSliderStyle (Slider::Rotary);
@@ -115,9 +117,63 @@ GUI::GUI ()
     addAndMakeVisible (CGslider = new Slider ("CarrierGain"));
     CGslider->setRange (1, 10, 0);
     CGslider->setSliderStyle (Slider::Rotary);
-    CGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    CGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);	
     CGslider->addListener (this);
 
+	// labels for distinguishing sliders better. delete at the end of the project
+	
+	addAndMakeVisible(label1);
+	label1.setText("s1", dontSendNotification);	// s1 refers to slider, s2 refers to slider2, etc.
+	label1.attachToComponent(slider, false);	// false so the text goes above
+
+	addAndMakeVisible(label2);
+	label2.setText("s2", dontSendNotification);
+	label2.attachToComponent(slider2, false);
+
+	addAndMakeVisible(label3);
+	label3.setText("s3", dontSendNotification);
+	label3.attachToComponent(slider3, false);
+
+	addAndMakeVisible(label4);
+	label4.setText("s4", dontSendNotification);
+	label4.attachToComponent(slider4, false);
+
+	addAndMakeVisible(label5);
+	label5.setText("s5", dontSendNotification);
+	label5.attachToComponent(slider5, false);
+
+	addAndMakeVisible(label7);
+	label7.setText("s7", dontSendNotification);
+	label7.attachToComponent(slider7, false);
+
+	addAndMakeVisible(label8);
+	label8.setText("s8", dontSendNotification);
+	label8.attachToComponent(slider8, false);
+
+	addAndMakeVisible(label9);
+	label9.setText("s9", dontSendNotification);
+	label9.attachToComponent(slider9, false);
+
+	addAndMakeVisible(label10);
+	label10.setText("s10", dontSendNotification);
+	label10.attachToComponent(slider10, false);
+
+	addAndMakeVisible(label12);
+	label12.setText("s12", dontSendNotification);
+	label12.attachToComponent(slider12, false);
+
+	addAndMakeVisible(label13);
+	label13.setText("s13", dontSendNotification);
+	label13.attachToComponent(slider13, false);
+
+	addAndMakeVisible(MGlabel);
+	MGlabel.setText("MGain", dontSendNotification);
+	MGlabel.attachToComponent(MGslider, false);
+
+	addAndMakeVisible(CGlabel);
+	CGlabel.setText("CGain", dontSendNotification);
+	CGlabel.attachToComponent(CGslider, false);
+	
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -208,15 +264,6 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     if (sliderThatWasMoved == slider)
     {
         //[UserSliderCode_slider] -- add your slider handling code here..
-		// ks. SynthVoice.h (getModulator palauttaa moduloivan aallon) ja sitten Oscillator.h
-		// getVoice on Synthesiser luokan metodi, palauttaa luodun aanen MainComponentissa (4kpl)
-		// testaa poistamal kommentit
-		/*
-		for (int i = 0; i < synth->getNumVoices(); i++) {
-			FMsynthesis* voice = (FMsynthesis*)synth->getVoice(i);
-			voice->getModulator().setAmplitude(slider->getValue());
-		}
-		*/
         //[/UserSliderCode_slider]
     }
     else if (sliderThatWasMoved == slider2)
@@ -257,6 +304,19 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == slider5)
     {
         //[UserSliderCode_slider5] -- add your slider handling code here..
+		// ks. SynthVoice.h (getModulator palauttaa moduloivan aallon) ja sitten Oscillator.h
+		// getVoice on Synthesiser luokan metodi, palauttaa luodun aanen MainComponentissa (4kpl)
+		// getModulator() palauttaa sita vastaavan moduloivan signaalin (ks.oscillator.h metodi) ja sitten muokataan sen amplitudia
+
+		for (int i = 0; i < synth->getNumVoices(); i++) {
+			FMsynthesis* voice = (FMsynthesis*)synth->getVoice(i);
+			voice->getModulator().setAmplitude(slider5->getValue());
+		}
+
+		// the sound changes while dragging but becomes original after pressed the midi button again?
+		// maybe because in synthvoice.cpp in ::startnote the amplitude is set back to 4400?
+		// solution: i commented out the ::startnote line that gives amplitude for modulating signal
+		
         //[/UserSliderCode_slider5]
     }
     else if (sliderThatWasMoved == slider12)

@@ -79,6 +79,27 @@ private:
     ScopedPointer<Slider> MGslider;
     ScopedPointer<Slider> CGslider;
 
+	// adding labels to distinguish the sliders better so working with code is little easier
+	// at final stage, these can be deleted
+	
+	Label label1;	// label1 for slider. label2 for slider2 etc.
+	Label label2;
+	Label label3;
+	Label label4;
+	Label label5;
+	// no slider6
+	Label label7;
+	Label label8;
+	Label label9;
+	Label label10;
+	// no slider11
+	Label label12;
+	Label label13;
+
+	Label MGlabel;
+	Label CGlabel;
+	
+
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GUI)

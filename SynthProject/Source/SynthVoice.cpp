@@ -20,8 +20,8 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 {
     //Envelope enters attack state
     carrierFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    
-    modulator.setAmplitude(4400);
+    // I commented line below out so it only takes values from slider5
+    //modulator.setAmplitude(4400);				
     modulator.setFrequency(carrierFrequency);	// sama kuin carrier koska alkutilanne (?)
     carrier.setAmplitude(velocity);
     carrier.setFrequency(carrierFrequency);
