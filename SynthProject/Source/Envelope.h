@@ -23,7 +23,9 @@ public:
         RELEASE
     };
 
-    Envelope(double fs);
+    Envelope(){}
+    
+    void init(double fs);
     ~Envelope() { }
     
     //called to start different stages of the envelope

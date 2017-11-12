@@ -43,9 +43,9 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    
+
     /* In this method you give all devices you want to modify from MainComponent. */
-     
+
 	// init function for GUI which could be used to transfer device pointers from mainComponent to GUI.
 	// synan pointteri, ks. https://juce.com/doc/classSynthesiser
 	// tietty luotu aani saadaan synth->getVoice(i)
@@ -83,14 +83,13 @@ private:
 	double QQ;
 	IIRFilter* filterRR;
 	IIRFilter* filterLL;
-	double* samplausrate;	// double pointteri ja pelkka "samplausrate" palauttaa muistiosoitteen joka on tyyliin 00x.... 
+	double* samplausrate;	// double pointteri ja pelkka "samplausrate" palauttaa muistiosoitteen joka on tyyliin 00x....
 							// itse double arvo saadaan ottamalla *samplausrate (?)
 
 
     //[/UserVariables]
 
     //==============================================================================
-	// sliderit pointtereina
     ScopedPointer<Slider> slider;
     ScopedPointer<Slider> slider2;
     ScopedPointer<Slider> slider3;
@@ -104,27 +103,6 @@ private:
     ScopedPointer<Slider> slider13;
     ScopedPointer<Slider> MGslider;
     ScopedPointer<Slider> CGslider;
-
-	// adding labels to distinguish the sliders better so working with code is little easier
-	// at final stage, these can be deleted
-	
-	Label label1;	// label1 for slider. label2 for slider2 etc.
-	Label label2;
-	Label label3;
-	Label label4;
-	Label label5;
-	// no slider6
-	Label label7;
-	Label label8;
-	Label label9;
-	Label label10;
-	// no slider11
-	Label label12;
-	Label label13;
-
-	Label MGlabel;
-	Label CGlabel;
-	
 
 
     //==============================================================================

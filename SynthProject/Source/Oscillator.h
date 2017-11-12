@@ -15,6 +15,7 @@
 #endif
 
 #include <cmath>
+#include "Envelope.h"
 
 /*#define _USE_MATH_DEFINES // for C++  
 #include <cmath>*/ 
@@ -23,7 +24,8 @@
 class Oscillator
 {
 public:
-    Oscillator(){}
+    Oscillator() : ADSR(){
+    }
     
     void initialize(double sampleRate);
     

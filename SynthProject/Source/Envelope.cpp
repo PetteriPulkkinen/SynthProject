@@ -10,21 +10,22 @@
 
 #include "Envelope.h"
 
-Envelope::Envelope(double fs) : sampleRate(fs),
-                                currLevel(minLevel),
-                                multiplier(1.0),
-                                currStageLen(0),
-                                stageSampleCounter(0)
-{
 
+void Envelope::init(double fs)
+{
     //change these
+    sampleRate = fs;
+    currLevel = minLevel;
+    multiplier = 1.0;
+    currStageLen = 0;
+    stageSampleCounter = 0;
     values[OFF] = 0.0;
     values[ATTACK] = 0.05;
     values[DECAY] = 0.5;
     values[SUSTAIN] = 0.5;
     values[RELEASE] = 0.5;
-
 }
+
 
 void Envelope::startStage(Stage s) {
     currStage = s;

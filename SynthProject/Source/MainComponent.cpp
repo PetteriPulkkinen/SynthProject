@@ -46,7 +46,7 @@ public:
 		// listaa kaikki tarjolla olevat midi laitteet
         const StringArray midiInputs(MidiInput::getDevices());
         
-		// asettaa midi laitteen t‰h‰n ett‰ se ottaa sen inputit
+		// asettaa midi laitteen t√§h√§n ett√§ se ottaa sen inputit
         for (int i = 0; i < midiInputs.size(); i++){
             if (!deviceManager.isMidiInputEnabled(midiInputs[i])){
                 std::cout << midiInputs[i] << std::endl;
@@ -95,7 +95,7 @@ public:
         midiCollector.removeNextBlockOfMessages(incomingMidi, bufferToFill.numSamples);
         
         keyboardState.processNextMidiBuffer(incomingMidi, 0, bufferToFill.numSamples, true);
-        // audio-‰‰nen teko (renderextBlock jokaisella loopilla, ks. Synthvoice.cpp ja sit oscillator.cpp)
+        // audio-√§√§nen teko (renderextBlock jokaisella loopilla, ks. Synthvoice.cpp ja sit oscillator.cpp)
         FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
         // ja lopuksi niiden filterointi (processSamples)
         filterL.processSamples(bufferToFill.buffer->getWritePointer(0, 0), bufferToFill.numSamples);
@@ -131,7 +131,7 @@ private:
 
     // Your private member variables go here...
     GUI GraphicalUI;
-    MidiKeyboardState keyboardState;			// midi komponentin n‰pp‰inten tila
+    MidiKeyboardState keyboardState;			// midi komponentin n√§pp√§inten tila
     MidiKeyboardComponent keyboardComponent;	// midi komponentti
     MidiMessageCollector midiCollector;
 	// ks. https://juce.com/doc/classSynthesiser

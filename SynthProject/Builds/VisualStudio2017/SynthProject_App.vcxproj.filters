@@ -373,6 +373,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Envelope.cpp">
+      <Filter>SynthProject\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Oscillator.cpp">
       <Filter>SynthProject\Source</Filter>
     </ClCompile>
@@ -2145,6 +2148,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Envelope.h">
+      <Filter>SynthProject\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Oscillator.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>
