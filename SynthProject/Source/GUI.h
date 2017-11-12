@@ -103,6 +103,11 @@ private:
     ScopedPointer<Slider> slider13;
     ScopedPointer<Slider> MGslider;
     ScopedPointer<Slider> CGslider;
+    ScopedPointer<Label> label;
+    ScopedPointer<Label> label2;
+    ScopedPointer<Label> label3;
+    ScopedPointer<Label> label4;
+    ScopedPointer<Label> label5;
 
 
     //==============================================================================

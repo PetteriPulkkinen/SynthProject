@@ -82,24 +82,25 @@ GUI::GUI ()
     slider10->addListener (this);
 
     addAndMakeVisible (slider5 = new Slider ("new slider"));
-    slider5->setRange (0, 40000, 0);
+    slider5->setRange (0, 20000, 0);
     slider5->setSliderStyle (Slider::Rotary);
-    slider5->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider5->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     slider5->addListener (this);
 
     addAndMakeVisible (slider12 = new Slider ("new slider"));
-    slider12->setRange (10, 20000, 0);
+    slider12->setRange (80, 16000, 0);
     slider12->setSliderStyle (Slider::Rotary);
-    slider12->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider12->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     slider12->addListener (this);
 
     addAndMakeVisible (slider13 = new Slider ("new slider"));
-    slider13->setRange (0.001, 10, 0);
+    slider13->setRange (1, 10, 0);
     slider13->setSliderStyle (Slider::Rotary);
-    slider13->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    slider13->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     slider13->addListener (this);
 
     addAndMakeVisible (MGslider = new Slider ("ModulatorGain"));
+    MGslider->setTooltip (TRANS("Mood"));
     MGslider->setRange (1, 10, 0);
     MGslider->setSliderStyle (Slider::Rotary);
     MGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -110,6 +111,46 @@ GUI::GUI ()
     CGslider->setSliderStyle (Slider::Rotary);
     CGslider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     CGslider->addListener (this);
+
+    addAndMakeVisible (label = new Label ("new label",
+                                          TRANS("Modulation Amplitude")));
+    label->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label->setJustificationType (Justification::centredLeft);
+    label->setEditable (false, false, false);
+    label->setColour (TextEditor::textColourId, Colours::black);
+    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label2 = new Label ("new label",
+                                           TRANS("Modulator squeeze")));
+    label2->setFont (Font (10.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label2->setJustificationType (Justification::centredLeft);
+    label2->setEditable (false, false, false);
+    label2->setColour (TextEditor::textColourId, Colours::black);
+    label2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label3 = new Label ("new label",
+                                           TRANS("Carrier squeeze")));
+    label3->setFont (Font (10.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label3->setJustificationType (Justification::centredLeft);
+    label3->setEditable (false, false, false);
+    label3->setColour (TextEditor::textColourId, Colours::black);
+    label3->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label4 = new Label ("new label",
+                                           TRANS("Cutoff")));
+    label4->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label4->setJustificationType (Justification::centredLeft);
+    label4->setEditable (false, false, false);
+    label4->setColour (TextEditor::textColourId, Colours::black);
+    label4->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label5 = new Label ("new label",
+                                           TRANS("Q")));
+    label5->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label5->setJustificationType (Justification::centredLeft);
+    label5->setEditable (false, false, false);
+    label5->setColour (TextEditor::textColourId, Colours::black);
+    label5->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
 
     //[UserPreSize]
@@ -141,6 +182,11 @@ GUI::~GUI()
     slider13 = nullptr;
     MGslider = nullptr;
     CGslider = nullptr;
+    label = nullptr;
+    label2 = nullptr;
+    label3 = nullptr;
+    label4 = nullptr;
+    label5 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -186,10 +232,15 @@ void GUI::resized()
     slider9->setBounds (182, 358, 40, 100);
     slider10->setBounds (38, 358, 40, 100);
     slider5->setBounds (56, 80, 150, 150);
-    slider12->setBounds (472, 200, 65, 65);
-    slider13->setBounds (592, 200, 65, 65);
+    slider12->setBounds (408, 200, 180, 100);
+    slider13->setBounds (544, 200, 180, 100);
     MGslider->setBounds (240, 200, 65, 65);
     CGslider->setBounds (240, 56, 65, 65);
+    label->setBounds (56, 48, 150, 24);
+    label2->setBounds (240, 176, 150, 24);
+    label3->setBounds (240, 40, 112, 24);
+    label4->setBounds (472, 176, 48, 24);
+    label5->setBounds (600, 176, 150, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -302,7 +353,7 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_CGslider] -- add your slider handling code here..
         for (int i = 0; i < synth->getNumVoices();i++){
             FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
-            voice->getModulator().setGain(CGslider->getValue());
+            voice->getCarrier().setGain(CGslider->getValue());
         }
         //[/UserSliderCode_CGslider]
     }
@@ -375,24 +426,52 @@ BEGIN_JUCER_METADATA
           needsCallback="1"/>
   <SLIDER name="new slider" id="c00cedec3bec0b3a" memberName="slider5"
           virtualName="" explicitFocusOrder="0" pos="56 80 150 150" min="0"
-          max="40000" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+          max="20000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
+          needsCallback="1"/>
   <SLIDER name="new slider" id="67919200e11f9bf" memberName="slider12"
-          virtualName="" explicitFocusOrder="0" pos="472 200 65 65" min="10"
-          max="20000" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+          virtualName="" explicitFocusOrder="0" pos="408 200 180 100" min="80"
+          max="16000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
+          needsCallback="1"/>
   <SLIDER name="new slider" id="b1e16e36f222738c" memberName="slider13"
-          virtualName="" explicitFocusOrder="0" pos="592 200 65 65" min="0.0010000000000000000208"
-          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+          virtualName="" explicitFocusOrder="0" pos="544 200 180 100" min="1"
+          max="10" int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="15" skewFactor="1" needsCallback="1"/>
   <SLIDER name="ModulatorGain" id="c16b303c43bf1bf5" memberName="MGslider"
-          virtualName="" explicitFocusOrder="0" pos="240 200 65 65" min="1"
-          max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+          virtualName="" explicitFocusOrder="0" pos="240 200 65 65" tooltip="Mood"
+          min="1" max="10" int="0" style="Rotary" textBoxPos="NoTextBox"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
   <SLIDER name="CarrierGain" id="c7e3cca1ca161860" memberName="CGslider"
           virtualName="" explicitFocusOrder="0" pos="240 56 65 65" min="1"
           max="10" int="0" style="Rotary" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <LABEL name="new label" id="e01e4267bc176f75" memberName="label" virtualName=""
+         explicitFocusOrder="0" pos="56 48 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Modulation Amplitude" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="217d3b45dfd7e65e" memberName="label2" virtualName=""
+         explicitFocusOrder="0" pos="240 176 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Modulator squeeze" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="6ca0987724a3d3d8" memberName="label3" virtualName=""
+         explicitFocusOrder="0" pos="240 40 112 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Carrier squeeze" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="f5078fbc9271d49f" memberName="label4" virtualName=""
+         explicitFocusOrder="0" pos="472 176 48 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Cutoff" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="456e730c95b7b6c3" memberName="label5" virtualName=""
+         explicitFocusOrder="0" pos="600 176 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Q" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
