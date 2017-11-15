@@ -21,6 +21,11 @@ class FMsynthesis : public SynthesiserVoice
     
 public:
     FMsynthesis(){
+        modulator_noteNum = 0;
+        carrier_noteNum = 0;
+        master = 1;
+        octave = 0;
+        changeFlag = 0;
     }
     
     ~FMsynthesis(){
@@ -48,6 +53,9 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override{};
     void renderNextBlock (AudioBuffer < float > &outputBuffer, int startSample, int numSamples) override;
     
+    /* Used when values need to be changed during the playback */
+    void update();
+    
     Oscillator& getCarrier() {
         return carrier;
     }
@@ -56,9 +64,36 @@ public:
         return modulator;
     }
     
+    void setMasterLevel(float newMaster){
+        master = newMaster;
+        changeFlag = true;
+    }
+    
+    void setOctave(int newOctave){
+        octave = newOctave;
+        changeFlag = true;
+    }
+    
+    void setCarrier_noteNum(int noteNum){
+        carrier_noteNum = noteNum;
+        changeFlag = true;
+    }
+    
+    void setModulator_noteNum(int noteNum){
+        modulator_noteNum = noteNum;
+        changeFlag = true;
+    }
+    
+    
 private:
     Oscillator carrier, modulator;
     double carrierFrequency;
     double sampleRate;
     float level;
+    
+    bool changeFlag;
+    float master;
+    int octave;
+    int carrier_noteNum; // is used for changing the corresponging note to midi note
+    int modulator_noteNum;
 };

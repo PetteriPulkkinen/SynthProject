@@ -108,6 +108,14 @@ private:
     ScopedPointer<Label> label3;
     ScopedPointer<Label> label4;
     ScopedPointer<Label> label5;
+    ScopedPointer<Slider> CNote;
+    ScopedPointer<Slider> MNote;
+    ScopedPointer<Label> label6;
+    ScopedPointer<Label> Label7;
+    ScopedPointer<Slider> Octave;
+    ScopedPointer<Label> label8;
+    ScopedPointer<Slider> Master;
+    ScopedPointer<Label> label9;
 
 
     //==============================================================================

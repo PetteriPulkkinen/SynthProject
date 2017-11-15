@@ -20,12 +20,25 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 {
     //Envelope enters attack state
     //carrier.ADSR.startStage(Envelope::ATTACK);
-    carrierFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    // I commented line below out so it only takes values from slider5
-    //modulator.setAmplitude(4400);				
-    modulator.setFrequency(carrierFrequency);	// sama kuin carrier koska alkutilanne (?)
-    carrier.setAmplitude(velocity);
-    carrier.setFrequency(carrierFrequency);
+    int carrierNote = midiNoteNumber+carrier_noteNum+octave*12;
+    int modulatorNote = midiNoteNumber+modulator_noteNum+octave*12;
+    
+    carrierFrequency = MidiMessage::getMidiNoteInHertz(carrierNote);
+    double modulatorFrequency = MidiMessage::getMidiNoteInHertz(modulatorNote);
+    
+    modulator.setFrequency(modulatorFrequency);
+    carrier.setAmplitude(master*velocity);
+}
+
+void FMsynthesis::update()
+{
+    int note = getCurrentlyPlayingNote();
+    int carrierNote, modulatorNote;
+    carrierNote = note+carrier_noteNum+octave*12;
+    modulatorNote = note+modulator_noteNum+octave*12;
+    carrierFrequency = MidiMessage::getMidiNoteInHertz(carrierNote);
+    modulator.setFrequency(MidiMessage::getMidiNoteInHertz(modulatorNote));
+    changeFlag = false;
 }
 
 void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
@@ -39,6 +52,9 @@ void FMsynthesis::renderNextBlock (AudioBuffer <float> &outputBuffer, int startS
 {
     if (!isVoiceActive()){
         return;
+    }
+    if (changeFlag == true){
+        update();
     }
     
 	// ks. getNextvalue Oscillator.cpp:sta. Moduloiva aalto "muokkaa" kantoaaltoo, siksi carrierin freq muokataan

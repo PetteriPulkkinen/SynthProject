@@ -49,6 +49,10 @@ public:
         return gain;
     }
     
+    double getAmplitude() const {
+        return amplitude;
+    }
+    
     void reset();
 
 private:

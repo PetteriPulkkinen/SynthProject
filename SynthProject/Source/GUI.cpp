@@ -152,9 +152,66 @@ GUI::GUI ()
     label5->setColour (TextEditor::textColourId, Colours::black);
     label5->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (CNote = new Slider ("Carrier Note"));
+    CNote->setRange (-24, 24, 1);
+    CNote->setSliderStyle (Slider::IncDecButtons);
+    CNote->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
+    CNote->addListener (this);
+
+    addAndMakeVisible (MNote = new Slider ("Modulator note"));
+    MNote->setRange (-24, 24, 1);
+    MNote->setSliderStyle (Slider::IncDecButtons);
+    MNote->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
+    MNote->addListener (this);
+
+    addAndMakeVisible (label6 = new Label ("new label",
+                                           TRANS("Carrier note")));
+    label6->setFont (Font (10.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label6->setJustificationType (Justification::centredLeft);
+    label6->setEditable (false, false, false);
+    label6->setColour (TextEditor::textColourId, Colours::black);
+    label6->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (Label7 = new Label ("new label",
+                                           TRANS("Modulator note")));
+    Label7->setFont (Font (10.00f, Font::plain).withTypefaceStyle ("Regular"));
+    Label7->setJustificationType (Justification::centredLeft);
+    Label7->setEditable (false, false, false);
+    Label7->setColour (TextEditor::textColourId, Colours::black);
+    Label7->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (Octave = new Slider ("Octave slider"));
+    Octave->setRange (-4, 4, 1);
+    Octave->setSliderStyle (Slider::IncDecButtons);
+    Octave->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
+    Octave->addListener (this);
+
+    addAndMakeVisible (label8 = new Label ("new label",
+                                           TRANS("Octave\n")));
+    label8->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label8->setJustificationType (Justification::centredLeft);
+    label8->setEditable (false, false, false);
+    label8->setColour (TextEditor::textColourId, Colours::black);
+    label8->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (Master = new Slider ("Master slider"));
+    Master->setRange (0, 1, 0.1);
+    Master->setSliderStyle (Slider::LinearHorizontal);
+    Master->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
+    Master->addListener (this);
+
+    addAndMakeVisible (label9 = new Label ("new label",
+                                           TRANS("Volume")));
+    label9->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label9->setJustificationType (Justification::centredLeft);
+    label9->setEditable (false, false, false);
+    label9->setColour (TextEditor::textColourId, Colours::black);
+    label9->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     slider12->setValue(1);
+    Master->setValue(1);
     //[/UserPreSize]
 
     setSize (800, 600);
@@ -187,6 +244,14 @@ GUI::~GUI()
     label3 = nullptr;
     label4 = nullptr;
     label5 = nullptr;
+    CNote = nullptr;
+    MNote = nullptr;
+    label6 = nullptr;
+    Label7 = nullptr;
+    Octave = nullptr;
+    label8 = nullptr;
+    Master = nullptr;
+    label9 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -232,15 +297,23 @@ void GUI::resized()
     slider9->setBounds (182, 358, 40, 100);
     slider10->setBounds (38, 358, 40, 100);
     slider5->setBounds (56, 80, 150, 150);
-    slider12->setBounds (408, 200, 180, 100);
-    slider13->setBounds (544, 200, 180, 100);
+    slider12->setBounds (480, 200, 180, 100);
+    slider13->setBounds (616, 200, 180, 100);
     MGslider->setBounds (240, 200, 65, 65);
     CGslider->setBounds (240, 56, 65, 65);
     label->setBounds (56, 48, 150, 24);
     label2->setBounds (240, 176, 150, 24);
     label3->setBounds (240, 40, 112, 24);
-    label4->setBounds (472, 176, 48, 24);
-    label5->setBounds (600, 176, 150, 24);
+    label4->setBounds (536, 176, 48, 24);
+    label5->setBounds (664, 176, 150, 24);
+    CNote->setBounds (32, 280, 100, 25);
+    MNote->setBounds (152, 280, 100, 25);
+    label6->setBounds (24, 256, 64, 24);
+    Label7->setBounds (144, 256, 72, 24);
+    Octave->setBounds (688, 8, 100, 25);
+    label8->setBounds (632, 8, 56, 16);
+    Master->setBounds (488, 8, 125, 25);
+    label9->setBounds (424, 8, 150, 16);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -357,6 +430,42 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
         }
         //[/UserSliderCode_CGslider]
     }
+    else if (sliderThatWasMoved == CNote)
+    {
+        //[UserSliderCode_CNote] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->setCarrier_noteNum(CNote->getValue());
+        }
+        //[/UserSliderCode_CNote]
+    }
+    else if (sliderThatWasMoved == MNote)
+    {
+        //[UserSliderCode_MNote] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->setModulator_noteNum(MNote->getValue());
+        }
+        //[/UserSliderCode_MNote]
+    }
+    else if (sliderThatWasMoved == Octave)
+    {
+        //[UserSliderCode_Octave] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->setOctave(Octave->getValue());
+        }
+        //[/UserSliderCode_Octave]
+    }
+    else if (sliderThatWasMoved == Master)
+    {
+        //[UserSliderCode_Master] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->setMasterLevel(Master->getValue());
+        }
+        //[/UserSliderCode_Master]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -430,12 +539,12 @@ BEGIN_JUCER_METADATA
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="67919200e11f9bf" memberName="slider12"
-          virtualName="" explicitFocusOrder="0" pos="408 200 180 100" min="80"
+          virtualName="" explicitFocusOrder="0" pos="480 200 180 100" min="80"
           max="16000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="b1e16e36f222738c" memberName="slider13"
-          virtualName="" explicitFocusOrder="0" pos="544 200 180 100" min="1"
+          virtualName="" explicitFocusOrder="0" pos="616 200 180 100" min="1"
           max="10" int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="15" skewFactor="1" needsCallback="1"/>
   <SLIDER name="ModulatorGain" id="c16b303c43bf1bf5" memberName="MGslider"
@@ -463,13 +572,53 @@ BEGIN_JUCER_METADATA
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="f5078fbc9271d49f" memberName="label4" virtualName=""
-         explicitFocusOrder="0" pos="472 176 48 24" edTextCol="ff000000"
+         explicitFocusOrder="0" pos="536 176 48 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Cutoff" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="456e730c95b7b6c3" memberName="label5" virtualName=""
-         explicitFocusOrder="0" pos="600 176 150 24" edTextCol="ff000000"
+         explicitFocusOrder="0" pos="664 176 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Q" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="33"/>
+  <SLIDER name="Carrier Note" id="44cf394519a99d3c" memberName="CNote"
+          virtualName="" explicitFocusOrder="0" pos="32 280 100 25" min="-24"
+          max="24" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
+          textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <SLIDER name="Modulator note" id="29f6189d75cefb5e" memberName="MNote"
+          virtualName="" explicitFocusOrder="0" pos="152 280 100 25" min="-24"
+          max="24" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
+          textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <LABEL name="new label" id="6cdcd4d6b226ee9c" memberName="label6" virtualName=""
+         explicitFocusOrder="0" pos="24 256 64 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Carrier note" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="56ac12c85a60c7b2" memberName="Label7" virtualName=""
+         explicitFocusOrder="0" pos="144 256 72 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Modulator note" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
+  <SLIDER name="Octave slider" id="a20e4f22f1d8e98c" memberName="Octave"
+          virtualName="" explicitFocusOrder="0" pos="688 8 100 25" min="-4"
+          max="4" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
+          textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <LABEL name="new label" id="b31e365d33e4b659" memberName="label8" virtualName=""
+         explicitFocusOrder="0" pos="632 8 56 16" edTextCol="ff000000"
+         edBkgCol="0" labelText="Octave&#10;" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
+  <SLIDER name="Master slider" id="a6a0247f868ec1e9" memberName="Master"
+          virtualName="" explicitFocusOrder="0" pos="488 8 125 25" min="0"
+          max="1" int="0.10000000000000000555" style="LinearHorizontal"
+          textBoxPos="TextBoxLeft" textBoxEditable="1" textBoxWidth="40"
+          textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <LABEL name="new label" id="b2a455da84b24907" memberName="label9" virtualName=""
+         explicitFocusOrder="0" pos="424 8 150 16" edTextCol="ff000000"
+         edBkgCol="0" labelText="Volume" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>

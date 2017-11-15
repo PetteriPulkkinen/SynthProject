@@ -136,7 +136,7 @@ private:
     MidiMessageCollector midiCollector;
 	// ks. https://juce.com/doc/classSynthesiser
     Synthesiser FMSynth;
-    
+
 	// ks. https://juce.com/doc/classIIRFilter 
 	// ei luoda konstruktorissa mutta preparetoplayssa (why? samplerate?)
     IIRFilter filterR;
