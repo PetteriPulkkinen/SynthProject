@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.1.2
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -33,53 +33,53 @@ GUI::GUI ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (slider = new Slider ("new slider"));
-    slider->setRange (0, 10, 0);
-    slider->setSliderStyle (Slider::LinearVertical);
-    slider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider->addListener (this);
+    addAndMakeVisible (DMod = new Slider ("decay_modulator"));
+    DMod->setRange (0, 2, 0);
+    DMod->setSliderStyle (Slider::LinearVertical);
+    DMod->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    DMod->addListener (this);
 
-    addAndMakeVisible (slider2 = new Slider ("new slider"));
-    slider2->setRange (0, 10, 0);
-    slider2->setSliderStyle (Slider::LinearVertical);
-    slider2->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider2->addListener (this);
+    addAndMakeVisible (SMod = new Slider ("sustain_modulator"));
+    SMod->setRange (0, 1, 0);
+    SMod->setSliderStyle (Slider::LinearVertical);
+    SMod->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    SMod->addListener (this);
 
-    addAndMakeVisible (slider3 = new Slider ("new slider"));
-    slider3->setRange (0, 10, 0);
-    slider3->setSliderStyle (Slider::LinearVertical);
-    slider3->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider3->addListener (this);
+    addAndMakeVisible (RMod = new Slider ("release_modulator"));
+    RMod->setRange (0, 2, 0);
+    RMod->setSliderStyle (Slider::LinearVertical);
+    RMod->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    RMod->addListener (this);
 
-    addAndMakeVisible (slider4 = new Slider ("new slider"));
-    slider4->setRange (0, 10, 0);
-    slider4->setSliderStyle (Slider::LinearVertical);
-    slider4->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider4->addListener (this);
+    addAndMakeVisible (AMod = new Slider ("attack_modulator"));
+    AMod->setRange (0, 2, 0);
+    AMod->setSliderStyle (Slider::LinearVertical);
+    AMod->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    AMod->addListener (this);
 
-    addAndMakeVisible (slider7 = new Slider ("new slider"));
-    slider7->setRange (0, 10, 0);
-    slider7->setSliderStyle (Slider::LinearVertical);
-    slider7->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider7->addListener (this);
+    addAndMakeVisible (DCarr = new Slider ("decay_carrier"));
+    DCarr->setRange (0, 2, 0);
+    DCarr->setSliderStyle (Slider::LinearVertical);
+    DCarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    DCarr->addListener (this);
 
-    addAndMakeVisible (slider8 = new Slider ("new slider"));
-    slider8->setRange (0, 10, 0);
-    slider8->setSliderStyle (Slider::LinearVertical);
-    slider8->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider8->addListener (this);
+    addAndMakeVisible (SCarr = new Slider ("sustain_carrier"));
+    SCarr->setRange (0, 1, 0);
+    SCarr->setSliderStyle (Slider::LinearVertical);
+    SCarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    SCarr->addListener (this);
 
-    addAndMakeVisible (slider9 = new Slider ("new slider"));
-    slider9->setRange (0, 10, 0);
-    slider9->setSliderStyle (Slider::LinearVertical);
-    slider9->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider9->addListener (this);
+    addAndMakeVisible (RCarr = new Slider ("release_carrier"));
+    RCarr->setRange (0, 2, 0);
+    RCarr->setSliderStyle (Slider::LinearVertical);
+    RCarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    RCarr->addListener (this);
 
-    addAndMakeVisible (slider10 = new Slider ("new slider"));
-    slider10->setRange (0, 10, 0);
-    slider10->setSliderStyle (Slider::LinearVertical);
-    slider10->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider10->addListener (this);
+    addAndMakeVisible (ACarr = new Slider ("attack_carrier"));
+    ACarr->setRange (0, 2, 0);
+    ACarr->setSliderStyle (Slider::LinearVertical);
+    ACarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
+    ACarr->addListener (this);
 
     addAndMakeVisible (slider5 = new Slider ("new slider"));
     slider5->setRange (0, 20000, 0);
@@ -208,6 +208,86 @@ GUI::GUI ()
     label9->setColour (TextEditor::textColourId, Colours::black);
     label9->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (label7 = new Label ("new label",
+                                           TRANS("Carrier Envelope")));
+    label7->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label7->setJustificationType (Justification::centred);
+    label7->setEditable (false, false, false);
+    label7->setColour (TextEditor::textColourId, Colours::black);
+    label7->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label10 = new Label ("new label",
+                                            TRANS("Modulation Envelope")));
+    label10->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label10->setJustificationType (Justification::centred);
+    label10->setEditable (false, false, false);
+    label10->setColour (TextEditor::textColourId, Colours::black);
+    label10->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label11 = new Label ("new label",
+                                            TRANS("A")));
+    label11->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label11->setJustificationType (Justification::centred);
+    label11->setEditable (false, false, false);
+    label11->setColour (TextEditor::textColourId, Colours::black);
+    label11->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label12 = new Label ("new label",
+                                            TRANS("D")));
+    label12->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label12->setJustificationType (Justification::centred);
+    label12->setEditable (false, false, false);
+    label12->setColour (TextEditor::textColourId, Colours::black);
+    label12->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label13 = new Label ("new label",
+                                            TRANS("S")));
+    label13->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label13->setJustificationType (Justification::centred);
+    label13->setEditable (false, false, false);
+    label13->setColour (TextEditor::textColourId, Colours::black);
+    label13->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label14 = new Label ("new label",
+                                            TRANS("R")));
+    label14->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label14->setJustificationType (Justification::centred);
+    label14->setEditable (false, false, false);
+    label14->setColour (TextEditor::textColourId, Colours::black);
+    label14->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label15 = new Label ("new label",
+                                            TRANS("A")));
+    label15->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label15->setJustificationType (Justification::centred);
+    label15->setEditable (false, false, false);
+    label15->setColour (TextEditor::textColourId, Colours::black);
+    label15->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label16 = new Label ("new label",
+                                            TRANS("D")));
+    label16->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label16->setJustificationType (Justification::centred);
+    label16->setEditable (false, false, false);
+    label16->setColour (TextEditor::textColourId, Colours::black);
+    label16->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label17 = new Label ("new label",
+                                            TRANS("S")));
+    label17->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label17->setJustificationType (Justification::centred);
+    label17->setEditable (false, false, false);
+    label17->setColour (TextEditor::textColourId, Colours::black);
+    label17->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label18 = new Label ("new label",
+                                            TRANS("R")));
+    label18->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label18->setJustificationType (Justification::centred);
+    label18->setEditable (false, false, false);
+    label18->setColour (TextEditor::textColourId, Colours::black);
+    label18->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     slider12->setValue(1);
@@ -226,14 +306,14 @@ GUI::~GUI()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    slider = nullptr;
-    slider2 = nullptr;
-    slider3 = nullptr;
-    slider4 = nullptr;
-    slider7 = nullptr;
-    slider8 = nullptr;
-    slider9 = nullptr;
-    slider10 = nullptr;
+    DMod = nullptr;
+    SMod = nullptr;
+    RMod = nullptr;
+    AMod = nullptr;
+    DCarr = nullptr;
+    SCarr = nullptr;
+    RCarr = nullptr;
+    ACarr = nullptr;
     slider5 = nullptr;
     slider12 = nullptr;
     slider13 = nullptr;
@@ -252,6 +332,16 @@ GUI::~GUI()
     label8 = nullptr;
     Master = nullptr;
     label9 = nullptr;
+    label7 = nullptr;
+    label10 = nullptr;
+    label11 = nullptr;
+    label12 = nullptr;
+    label13 = nullptr;
+    label14 = nullptr;
+    label15 = nullptr;
+    label16 = nullptr;
+    label17 = nullptr;
+    label18 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -288,14 +378,14 @@ void GUI::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    slider->setBounds (598, 350, 40, 110);
-    slider2->setBounds (646, 350, 40, 110);
-    slider3->setBounds (694, 350, 40, 110);
-    slider4->setBounds (550, 350, 40, 110);
-    slider7->setBounds (86, 358, 40, 100);
-    slider8->setBounds (134, 358, 40, 100);
-    slider9->setBounds (182, 358, 40, 100);
-    slider10->setBounds (38, 358, 40, 100);
+    DMod->setBounds (598, 362, 40, 110);
+    SMod->setBounds (646, 362, 40, 110);
+    RMod->setBounds (694, 362, 40, 110);
+    AMod->setBounds (550, 362, 40, 110);
+    DCarr->setBounds (86, 370, 40, 100);
+    SCarr->setBounds (134, 370, 40, 100);
+    RCarr->setBounds (182, 370, 40, 100);
+    ACarr->setBounds (40, 370, 40, 100);
     slider5->setBounds (56, 80, 150, 150);
     slider12->setBounds (480, 200, 180, 100);
     slider13->setBounds (616, 200, 180, 100);
@@ -314,6 +404,16 @@ void GUI::resized()
     label8->setBounds (632, 8, 56, 16);
     Master->setBounds (488, 8, 125, 25);
     label9->setBounds (424, 8, 150, 16);
+    label7->setBounds (56, 320, 150, 24);
+    label10->setBounds (568, 314, 150, 24);
+    label11->setBounds (48, 350, 24, 24);
+    label12->setBounds (96, 350, 24, 24);
+    label13->setBounds (144, 350, 24, 24);
+    label14->setBounds (192, 350, 24, 24);
+    label15->setBounds (556, 340, 24, 24);
+    label16->setBounds (604, 340, 24, 24);
+    label17->setBounds (652, 340, 24, 24);
+    label18->setBounds (700, 340, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -323,45 +423,77 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
 
-    if (sliderThatWasMoved == slider)
+    if (sliderThatWasMoved == DMod)
     {
-        //[UserSliderCode_slider] -- add your slider handling code here..
-        //[/UserSliderCode_slider]
+        //[UserSliderCode_DMod] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getModulator().getEnvelope().updateValues(DMod->getValue(), 2);
+        }
+        //[/UserSliderCode_DMod]
     }
-    else if (sliderThatWasMoved == slider2)
+    else if (sliderThatWasMoved == SMod)
     {
-        //[UserSliderCode_slider2] -- add your slider handling code here..
-        //[/UserSliderCode_slider2]
+        //[UserSliderCode_SMod] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getModulator().getEnvelope().updateValues(SMod->getValue(), 3);
+        }
+        //[/UserSliderCode_SMod]
     }
-    else if (sliderThatWasMoved == slider3)
+    else if (sliderThatWasMoved == RMod)
     {
-        //[UserSliderCode_slider3] -- add your slider handling code here..
-        //[/UserSliderCode_slider3]
+        //[UserSliderCode_RMod] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getModulator().getEnvelope().updateValues(RMod->getValue(), 4);
+        }
+        //[/UserSliderCode_RMod]
     }
-    else if (sliderThatWasMoved == slider4)
+    else if (sliderThatWasMoved == AMod)
     {
-        //[UserSliderCode_slider4] -- add your slider handling code here..
-        //[/UserSliderCode_slider4]
+        //[UserSliderCode_AMod] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getModulator().getEnvelope().updateValues(AMod->getValue(), 1);
+        }
+        //[/UserSliderCode_AMod]
     }
-    else if (sliderThatWasMoved == slider7)
+    else if (sliderThatWasMoved == DCarr)
     {
-        //[UserSliderCode_slider7] -- add your slider handling code here..
-        //[/UserSliderCode_slider7]
+        //[UserSliderCode_DCarr] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getCarrier().getEnvelope().updateValues(DCarr->getValue(), 2);
+        }
+        //[/UserSliderCode_DCarr]
     }
-    else if (sliderThatWasMoved == slider8)
+    else if (sliderThatWasMoved == SCarr)
     {
-        //[UserSliderCode_slider8] -- add your slider handling code here..
-        //[/UserSliderCode_slider8]
+        //[UserSliderCode_SCarr] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getCarrier().getEnvelope().updateValues(SCarr->getValue(), 3);
+        }
+        //[/UserSliderCode_SCarr]
     }
-    else if (sliderThatWasMoved == slider9)
+    else if (sliderThatWasMoved == RCarr)
     {
-        //[UserSliderCode_slider9] -- add your slider handling code here..
-        //[/UserSliderCode_slider9]
+        //[UserSliderCode_RCarr] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getCarrier().getEnvelope().updateValues(RCarr->getValue(), 4);
+        }
+        //[/UserSliderCode_RCarr]
     }
-    else if (sliderThatWasMoved == slider10)
+    else if (sliderThatWasMoved == ACarr)
     {
-        //[UserSliderCode_slider10] -- add your slider handling code here..
-        //[/UserSliderCode_slider10]
+        //[UserSliderCode_ACarr] -- add your slider handling code here..
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            voice->getCarrier().getEnvelope().updateValues(ACarr->getValue(), 1);
+        }
+        //[/UserSliderCode_ACarr]
     }
     else if (sliderThatWasMoved == slider5)
     {
@@ -494,44 +626,45 @@ BEGIN_JUCER_METADATA
     <RECT pos="-10 480 820 130" fill="solid: ff262020" hasStroke="1" stroke="6.2, mitered, butt"
           strokeColour="solid: ff3e323c"/>
   </BACKGROUND>
-  <SLIDER name="new slider" id="63bd38afd51ecc43" memberName="slider" virtualName=""
-          explicitFocusOrder="0" pos="598 350 40 110" min="0" max="10"
-          int="0" style="LinearVertical" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1" needsCallback="1"/>
-  <SLIDER name="new slider" id="405706fe9d67c034" memberName="slider2"
-          virtualName="" explicitFocusOrder="0" pos="646 350 40 110" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="decay_modulator" id="63bd38afd51ecc43" memberName="DMod"
+          virtualName="" explicitFocusOrder="0" pos="598 362 40 110" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="f8ae9f1895e9f7cb" memberName="slider3"
-          virtualName="" explicitFocusOrder="0" pos="694 350 40 110" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="sustain_modulator" id="405706fe9d67c034" memberName="SMod"
+          virtualName="" explicitFocusOrder="0" pos="646 362 40 110" min="0"
+          max="1" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="55065483c5cfda78" memberName="slider4"
-          virtualName="" explicitFocusOrder="0" pos="550 350 40 110" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="release_modulator" id="f8ae9f1895e9f7cb" memberName="RMod"
+          virtualName="" explicitFocusOrder="0" pos="694 362 40 110" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="4ff5356e4f65685c" memberName="slider7"
-          virtualName="" explicitFocusOrder="0" pos="86 358 40 100" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="attack_modulator" id="55065483c5cfda78" memberName="AMod"
+          virtualName="" explicitFocusOrder="0" pos="550 362 40 110" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="57947018b5f68fb1" memberName="slider8"
-          virtualName="" explicitFocusOrder="0" pos="134 358 40 100" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="decay_carrier" id="4ff5356e4f65685c" memberName="DCarr"
+          virtualName="" explicitFocusOrder="0" pos="86 370 40 100" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="a84ab44e65d8e2a3" memberName="slider9"
-          virtualName="" explicitFocusOrder="0" pos="182 358 40 100" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="sustain_carrier" id="57947018b5f68fb1" memberName="SCarr"
+          virtualName="" explicitFocusOrder="0" pos="134 370 40 100" min="0"
+          max="1" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="8b3f507f3e828678" memberName="slider10"
-          virtualName="" explicitFocusOrder="0" pos="38 358 40 100" min="0"
-          max="10" int="0" style="LinearVertical" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+  <SLIDER name="release_carrier" id="a84ab44e65d8e2a3" memberName="RCarr"
+          virtualName="" explicitFocusOrder="0" pos="182 370 40 100" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <SLIDER name="attack_carrier" id="8b3f507f3e828678" memberName="ACarr"
+          virtualName="" explicitFocusOrder="0" pos="40 370 40 100" min="0"
+          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="new slider" id="c00cedec3bec0b3a" memberName="slider5"
           virtualName="" explicitFocusOrder="0" pos="56 80 150 150" min="0"
@@ -621,6 +754,56 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Volume" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="d80292204dbc0ae1" memberName="label7" virtualName=""
+         explicitFocusOrder="0" pos="56 320 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Carrier Envelope" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="f61c75d57510852f" memberName="label10" virtualName=""
+         explicitFocusOrder="0" pos="568 314 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Modulation Envelope" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="405c0e9e3d721629" memberName="label11" virtualName=""
+         explicitFocusOrder="0" pos="48 350 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="A" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="461454e442e1f0db" memberName="label12" virtualName=""
+         explicitFocusOrder="0" pos="96 350 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="D" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="df13ec09dac5d0cf" memberName="label13" virtualName=""
+         explicitFocusOrder="0" pos="144 350 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="S" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="85c20edd0198df6c" memberName="label14" virtualName=""
+         explicitFocusOrder="0" pos="192 350 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="R" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="9eb94f55b1fb0b98" memberName="label15" virtualName=""
+         explicitFocusOrder="0" pos="556 340 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="A" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="ab7df29838214b5b" memberName="label16" virtualName=""
+         explicitFocusOrder="0" pos="604 340 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="D" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="46221d7eaa6bb7a5" memberName="label17" virtualName=""
+         explicitFocusOrder="0" pos="652 340 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="S" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
+  <LABEL name="new label" id="ca4204ff23ce9bb9" memberName="label18" virtualName=""
+         explicitFocusOrder="0" pos="700 340 24 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="R" editableSingleClick="0" editableDoubleClick="0"
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         kerning="0" bold="0" italic="0" justification="36"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

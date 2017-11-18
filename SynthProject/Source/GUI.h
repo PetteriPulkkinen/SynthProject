@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.1.2
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@
                                                                     //[/Comments]
 */
 class GUI  : public Component,
-             public Slider::Listener
+             public SliderListener
 {
 public:
     //==============================================================================
@@ -90,14 +90,14 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Slider> slider;
-    ScopedPointer<Slider> slider2;
-    ScopedPointer<Slider> slider3;
-    ScopedPointer<Slider> slider4;
-    ScopedPointer<Slider> slider7;
-    ScopedPointer<Slider> slider8;
-    ScopedPointer<Slider> slider9;
-    ScopedPointer<Slider> slider10;
+    ScopedPointer<Slider> DMod;
+    ScopedPointer<Slider> SMod;
+    ScopedPointer<Slider> RMod;
+    ScopedPointer<Slider> AMod;
+    ScopedPointer<Slider> DCarr;
+    ScopedPointer<Slider> SCarr;
+    ScopedPointer<Slider> RCarr;
+    ScopedPointer<Slider> ACarr;
     ScopedPointer<Slider> slider5;
     ScopedPointer<Slider> slider12;
     ScopedPointer<Slider> slider13;
@@ -116,6 +116,16 @@ private:
     ScopedPointer<Label> label8;
     ScopedPointer<Slider> Master;
     ScopedPointer<Label> label9;
+    ScopedPointer<Label> label7;
+    ScopedPointer<Label> label10;
+    ScopedPointer<Label> label11;
+    ScopedPointer<Label> label12;
+    ScopedPointer<Label> label13;
+    ScopedPointer<Label> label14;
+    ScopedPointer<Label> label15;
+    ScopedPointer<Label> label16;
+    ScopedPointer<Label> label17;
+    ScopedPointer<Label> label18;
 
 
     //==============================================================================
