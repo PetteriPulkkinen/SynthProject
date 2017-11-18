@@ -24,7 +24,7 @@
 class Oscillator
 {
 public:
-    Oscillator() : ADSR(){
+    Oscillator() : ADSR() {
     }
     
     void initialize(double sampleRate);
@@ -45,9 +45,14 @@ public:
     }
     
     void setGain(double newGain);
+    
     const double& getGain() const {
         return gain;
     }
+    
+	Envelope& getEnvelope() {
+		return ADSR;
+	}
     
     double getAmplitude() const {
         return amplitude;

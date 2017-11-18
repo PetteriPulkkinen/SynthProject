@@ -24,7 +24,7 @@ const float Oscillator::getNextValue()
         retVal = -1;
     }
     phase += delta;
-    return amplitude*retVal;
+    return amplitude*retVal*ADSR.nextSample();
 };
 
 void Oscillator::initialize(double sampleRate)
@@ -34,6 +34,7 @@ void Oscillator::initialize(double sampleRate)
     amplitude = 0;
     gain = 1;
     this->sampleRate = sampleRate;
+    ADSR.init(sampleRate);
 };
 
 void Oscillator::reset()

@@ -26,12 +26,13 @@ public:
     Envelope(){}
     
     void init(double fs);
+    
     ~Envelope() { }
     
     //called to start different stages of the envelope
     void startStage(Stage);
     
-    void updateValues();
+    void updateValues(double newVal, int s_int);
     
     double nextSample();
     

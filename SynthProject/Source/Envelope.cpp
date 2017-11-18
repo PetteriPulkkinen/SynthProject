@@ -10,7 +10,6 @@
 
 #include "Envelope.h"
 
-
 void Envelope::init(double fs)
 {
     //change these
@@ -20,19 +19,19 @@ void Envelope::init(double fs)
     currStageLen = 0;
     stageSampleCounter = 0;
     values[OFF] = 0.0;
-    values[ATTACK] = 0.05;
+    values[ATTACK] = 0.5;
     values[DECAY] = 0.5;
     values[SUSTAIN] = 0.5;
-    values[RELEASE] = 0.5;
+    values[RELEASE] = 1;
 }
 
 
 void Envelope::startStage(Stage s) {
     currStage = s;
     currStageLen = 0;
+	stageSampleCounter = 0;
     
     if (currStage == ATTACK || currStage == DECAY || currStage == RELEASE) {
-        updateValues();
         currStageLen = values[currStage] * sampleRate;
         
     }
@@ -59,7 +58,7 @@ void Envelope::startStage(Stage s) {
             break;
             
         case RELEASE:
-            //currLevel = values[SUSTAIN];
+            currLevel = values[SUSTAIN];
             setMultiplier(currLevel, minLevel, currStageLen);
             break;
     
@@ -79,7 +78,6 @@ double Envelope::nextSample() {
             stageSampleCounter++;
         }
     }
-    
     return currLevel;
 } // nextSample
 
@@ -88,6 +86,7 @@ void Envelope::setMultiplier(double start, double end, unsigned long long int st
 
 } // setMultiplier
 
-void Envelope::updateValues() {
-    return;
+void Envelope::updateValues(double newVal, int s_int) {
+	Stage s = static_cast<Stage>(s_int);
+    values[s] = newVal;
 } // updateValues

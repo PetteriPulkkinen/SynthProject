@@ -18,8 +18,7 @@ bool FMsynthesis::canPlaySound(SynthesiserSound* sound)
 
 void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    //Envelope enters attack state
-    //carrier.ADSR.startStage(Envelope::ATTACK);
+    
     int carrierNote = midiNoteNumber+carrier_noteNum+octave*12;
     int modulatorNote = midiNoteNumber+modulator_noteNum+octave*12;
     
@@ -28,6 +27,9 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
     
     modulator.setFrequency(modulatorFrequency);
     carrier.setAmplitude(master*velocity);
+    
+    //Envelope enters attack state
+    carrier.getEnvelope().startStage(Envelope::ATTACK);
 }
 
 void FMsynthesis::update()
@@ -44,11 +46,11 @@ void FMsynthesis::update()
 void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
 {
     //Envelope enters release state
-    //carrier.ADSR.startStage(Envelope::RELEASE);
+    carrier.getEnvelope().startStage(Envelope::RELEASE);
     clearCurrentNote();
 }
 
-void FMsynthesis::renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
+void FMsynthesis::renderNextBlock (juce::AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
 {
     if (!isVoiceActive()){
         return;
