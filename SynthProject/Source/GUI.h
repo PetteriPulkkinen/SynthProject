@@ -116,6 +116,8 @@ private:
     ScopedPointer<Label> label8;
     ScopedPointer<Slider> Master;
     ScopedPointer<Label> label9;
+    ScopedPointer<Slider> CMrelation;
+    ScopedPointer<Label> label7;
 
 
     //==============================================================================

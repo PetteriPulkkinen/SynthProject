@@ -84,14 +84,16 @@ GUI::GUI ()
     addAndMakeVisible (slider5 = new Slider ("new slider"));
     slider5->setRange (0, 20000, 0);
     slider5->setSliderStyle (Slider::Rotary);
-    slider5->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
+    slider5->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
     slider5->addListener (this);
+    slider5->setSkewFactor (0.2);
 
     addAndMakeVisible (slider12 = new Slider ("new slider"));
     slider12->setRange (80, 16000, 0);
     slider12->setSliderStyle (Slider::Rotary);
     slider12->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     slider12->addListener (this);
+    slider12->setSkewFactor (0.2);
 
     addAndMakeVisible (slider13 = new Slider ("new slider"));
     slider13->setRange (1, 10, 0);
@@ -208,6 +210,20 @@ GUI::GUI ()
     label9->setColour (TextEditor::textColourId, Colours::black);
     label9->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (CMrelation = new Slider ("CarrierModulatorRelation"));
+    CMrelation->setRange (0, 1, 0);
+    CMrelation->setSliderStyle (Slider::LinearVertical);
+    CMrelation->setTextBoxStyle (Slider::NoTextBox, false, 40, 20);
+    CMrelation->addListener (this);
+
+    addAndMakeVisible (label7 = new Label ("new label",
+                                           TRANS("Carrier/Modulator")));
+    label7->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label7->setJustificationType (Justification::centredLeft);
+    label7->setEditable (false, false, false);
+    label7->setColour (TextEditor::textColourId, Colours::black);
+    label7->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     slider12->setValue(1);
@@ -252,6 +268,8 @@ GUI::~GUI()
     label8 = nullptr;
     Master = nullptr;
     label9 = nullptr;
+    CMrelation = nullptr;
+    label7 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -314,6 +332,8 @@ void GUI::resized()
     label8->setBounds (632, 8, 56, 16);
     Master->setBounds (488, 8, 125, 25);
     label9->setBounds (424, 8, 150, 16);
+    CMrelation->setBounds (360, 312, 64, 152);
+    label7->setBounds (328, 280, 150, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -466,6 +486,11 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
         }
         //[/UserSliderCode_Master]
     }
+    else if (sliderThatWasMoved == CMrelation)
+    {
+        //[UserSliderCode_CMrelation] -- add your slider handling code here..
+        //[/UserSliderCode_CMrelation]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -536,12 +561,12 @@ BEGIN_JUCER_METADATA
   <SLIDER name="new slider" id="c00cedec3bec0b3a" memberName="slider5"
           virtualName="" explicitFocusOrder="0" pos="56 80 150 150" min="0"
           max="20000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2000000000000000111"
           needsCallback="1"/>
   <SLIDER name="new slider" id="67919200e11f9bf" memberName="slider12"
           virtualName="" explicitFocusOrder="0" pos="480 200 180 100" min="80"
           max="16000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="1"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="0.2000000000000000111"
           needsCallback="1"/>
   <SLIDER name="new slider" id="b1e16e36f222738c" memberName="slider13"
           virtualName="" explicitFocusOrder="0" pos="616 200 180 100" min="1"
@@ -621,6 +646,16 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Volume" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="33"/>
+  <SLIDER name="CarrierModulatorRelation" id="8b85b2c83715f7cd" memberName="CMrelation"
+          virtualName="" explicitFocusOrder="0" pos="360 312 64 152" min="0"
+          max="1" int="0" style="LinearVertical" textBoxPos="NoTextBox"
+          textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <LABEL name="new label" id="511c3604f97479b" memberName="label7" virtualName=""
+         explicitFocusOrder="0" pos="328 280 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Carrier/Modulator" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
