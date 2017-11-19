@@ -292,7 +292,7 @@ GUI::GUI ()
 
 
     //[UserPreSize]
-    slider12->setValue(1);
+    slider12->setValue(1000);
     Master->setValue(1);
     //[/UserPreSize]
 
