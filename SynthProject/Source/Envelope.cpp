@@ -59,7 +59,7 @@ void Envelope::startStage(Stage s) {
             break;
             
         case RELEASE:
-            //currLevel = values[SUSTAIN];
+            currLevel = values[SUSTAIN];
             setMultiplier(currLevel, minLevel, currStageLen);
             break;
     
@@ -69,7 +69,7 @@ void Envelope::startStage(Stage s) {
 } // startStage
 
 double Envelope::nextSample() {
-    if  (!(currStage == OFF && currStage == SUSTAIN)) {
+    if  (!(currStage == OFF || currStage == SUSTAIN)) {
         if (stageSampleCounter == currStageLen) {
 			Stage next = static_cast<Stage>((currStage + 1) % 5);
             startStage(next);
@@ -85,7 +85,7 @@ double Envelope::nextSample() {
 } // nextSample
 
 void Envelope::setMultiplier(double start, double end, unsigned long long int stageLen) {
-    multiplier = 1 + (std::log(end/start)/(stageLen - 1));//     (end - start) / (stageLen - 1);
+    multiplier = 1 + (std::log(end/start)/(stageLen - 1));
 
 } // setMultiplier
 
