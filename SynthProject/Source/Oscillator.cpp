@@ -24,6 +24,7 @@ const float Oscillator::getNextValue()
         retVal = -1;
     }
     phase += delta;
+    
     return amplitude*retVal*ADSR.nextSample();
 };
 

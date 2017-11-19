@@ -47,7 +47,7 @@ void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
 {
     //Envelope enters release state
     carrier.getEnvelope().startStage(Envelope::RELEASE);
-    clearCurrentNote();
+    //clearCurrentNote();
 }
 
 void FMsynthesis::renderNextBlock (juce::AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
@@ -68,6 +68,10 @@ void FMsynthesis::renderNextBlock (juce::AudioBuffer <float> &outputBuffer, int 
             outputBuffer.addSample(channel, startSample, sample);
         }
         startSample++;
+    }
+    if (carrier.getEnvelope().shouldClearNote()) {
+		clearCurrentNote();
+		carrier.getEnvelope().cleared();
     }
 }
 

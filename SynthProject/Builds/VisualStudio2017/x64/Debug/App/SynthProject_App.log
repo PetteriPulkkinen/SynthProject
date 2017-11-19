@@ -1,12 +1,10 @@
-﻿  Envelope.cpp
-  SynthVoice.cpp
-..\..\Source\Envelope.cpp(35): warning C4244: '=': conversion from 'double' to 'unsigned __int64', possible loss of data (compiling source file ..\..\Source\Envelope.cpp)
-c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(52): warning C4100: 'newPitchWheel': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(53): warning C4100: 'newControllerValue': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(53): warning C4100: 'controllerNumber': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-..\..\Source\SynthVoice.cpp(19): warning C4100: 'currentPitchWheelPosition': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-..\..\Source\SynthVoice.cpp(19): warning C4100: 'sound': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-..\..\Source\SynthVoice.cpp(46): warning C4100: 'allowTrailOff': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
-..\..\Source\SynthVoice.cpp(46): warning C4100: 'velocity': unreferenced formal parameter (compiling source file ..\..\Source\SynthVoice.cpp)
+﻿  SynthVoice.cpp
+c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(52): warning C4100: 'newPitchWheel': unreferenced formal parameter
+c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(53): warning C4100: 'newControllerValue': unreferenced formal parameter
+c:\users\emilia nuppumäki\synthproject\synthproject\source\SynthVoice.h(53): warning C4100: 'controllerNumber': unreferenced formal parameter
+..\..\Source\SynthVoice.cpp(19): warning C4100: 'currentPitchWheelPosition': unreferenced formal parameter
+..\..\Source\SynthVoice.cpp(19): warning C4100: 'sound': unreferenced formal parameter
+..\..\Source\SynthVoice.cpp(46): warning C4100: 'allowTrailOff': unreferenced formal parameter
+..\..\Source\SynthVoice.cpp(46): warning C4100: 'velocity': unreferenced formal parameter
   SynthProject_App.vcxproj -> C:\Users\Emilia Nuppumäki\SynthProject\SynthProject\Builds\VisualStudio2017\x64\Debug\App\SynthProject.exe
   SynthProject_App.vcxproj -> x64\Debug\App\\SynthProject.pdb (Full PDB)

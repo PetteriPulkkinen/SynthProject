@@ -36,7 +36,9 @@ public:
     
     double nextSample();
     
+    bool shouldClearNote() {return clearNote;}
     
+    void cleared() {clearNote = false;}
     
 
 private:
@@ -44,10 +46,11 @@ private:
     Stage currStage;
     double sampleRate;
     double currLevel;
-    const double minLevel = 0.001;
+    const double minLevel = 0.01;
     double multiplier;
     unsigned long long int currStageLen; //in samples
     unsigned long long int stageSampleCounter;
+    bool clearNote = false;
     
     double values[5] = {0}; //store the values of different stages here
     
