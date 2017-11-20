@@ -40,6 +40,8 @@ public:
     
     void cleared() {clearNote = false;}
     
+    const double getValue(Stage stage) const;
+    
 
 private:
 

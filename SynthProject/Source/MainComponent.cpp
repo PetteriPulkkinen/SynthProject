@@ -25,14 +25,6 @@ public:
         setAudioChannels(0, 2);
         setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
-        addAndMakeVisible(GraphicalUI);
-		// GUI:n pointterin arvot tahan
-        GraphicalUI.init(&FMSynth);
-		GraphicalUI.init2(&filterR);
-		GraphicalUI.init3(&filterL);
-		GraphicalUI.init4(&samplausrate);
-        
-        addAndMakeVisible(keyboardComponent);
         
         // ks. https://juce.com/doc/classSynthesiser
         FMSynth.addVoice(new FMsynthesis());
@@ -42,6 +34,14 @@ public:
         
         FMSynth.clearSounds();
         FMSynth.addSound(new SynthSound());
+        
+        addAndMakeVisible(GraphicalUI);
+        addAndMakeVisible(keyboardComponent);
+        // GUI:n pointterin arvot tahan
+        GraphicalUI.init(&FMSynth);
+        GraphicalUI.init2(&filterR);
+        GraphicalUI.init3(&filterL);
+        GraphicalUI.init4(&samplausrate);
         
 		// listaa kaikki tarjolla olevat midi laitteet
         const StringArray midiInputs(MidiInput::getDevices());

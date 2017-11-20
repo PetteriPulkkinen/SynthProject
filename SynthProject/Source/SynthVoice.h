@@ -36,6 +36,7 @@ public:
         carrier.initialize(newRate);
         modulator.initialize(newRate);
         sampleRate = newRate;
+        DBG("Playback init");
     }
     
     void setOutputLevel(float outLevel){

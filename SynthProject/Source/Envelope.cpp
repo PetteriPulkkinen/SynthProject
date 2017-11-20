@@ -93,3 +93,9 @@ void Envelope::updateValues(double newVal, int s_int) {
 	Stage s = static_cast<Stage>(s_int);
     values[s] = newVal;
 } // updateValues
+
+
+const double Envelope::getValue(Envelope::Stage stage) const
+{
+    return values[stage];
+}

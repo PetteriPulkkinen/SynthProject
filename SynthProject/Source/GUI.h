@@ -21,6 +21,8 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Envelope.h"
+#include "SynthVoice.h"
 //[/Headers]
 
 
@@ -51,6 +53,21 @@ public:
 	// tietty luotu aani saadaan synth->getVoice(i)
     void init(Synthesiser* synth){
         this->synth = synth;
+        DBG("GUI init");
+        for (int i = 0; i < synth->getNumVoices(); i++){
+            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+            Envelope cenv = voice->getCarrier().getEnvelope();
+            ACarr->setValue(cenv.getValue(Envelope::Stage::ATTACK));
+            DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
+            SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
+            RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
+            
+            Envelope menv = voice->getModulator().getEnvelope();
+            AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
+            DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
+            SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
+            RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
+        }
     }
 	// samalla tavalla tuodaan filterit ja samplin rate
 	void init2(IIRFilter* r) {
