@@ -59,7 +59,7 @@ void Envelope::startStage(Stage s) {
             break;
             
         case RELEASE:
-            currLevel = values[SUSTAIN];
+            //currLevel = values[SUSTAIN];
             setMultiplier(currLevel, minLevel, currStageLen);
             break;
     

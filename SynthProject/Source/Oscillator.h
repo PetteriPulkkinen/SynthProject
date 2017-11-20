@@ -16,6 +16,8 @@
 
 #include <cmath>
 #include "Envelope.h"
+ 
+#include "../JuceLibraryCode/JuceHeader.h"
 
 /*#define _USE_MATH_DEFINES // for C++  
 #include <cmath>*/ 
