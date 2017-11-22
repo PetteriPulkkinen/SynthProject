@@ -46,6 +46,9 @@ void FMsynthesis::update()
 void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
 {
     //Envelope enters release state
+	if (carrier.getEnvelope().zeroValues())
+		clearCurrentNote();
+
     carrier.getEnvelope().startStage(Envelope::RELEASE);
     //clearCurrentNote();
 }

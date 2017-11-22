@@ -42,6 +42,8 @@ public:
     
     const double getValue(Stage stage) const;
     
+    bool zeroValues() const;
+    
 
 private:
 

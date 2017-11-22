@@ -26,12 +26,21 @@ void Envelope::init(double fs)
     values[RELEASE] = 1;
 }
 
+bool Envelope::zeroValues() const{
+    for (unsigned int i = 0; i < 5; i++) {
+        if (values[i] != 0) {
+            return false;
+        }
+    }
+    return true;
+} //zeroValues
+
 
 void Envelope::startStage(Stage s) {
     currStage = s;
     currStageLen = 0;
 	stageSampleCounter = 0;
-    
+	
     if (currStage == ATTACK || currStage == DECAY || currStage == RELEASE) {
         currStageLen = values[currStage] * sampleRate;
         
