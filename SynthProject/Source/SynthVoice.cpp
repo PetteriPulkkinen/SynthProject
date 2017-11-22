@@ -30,6 +30,7 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
     
     //Envelope enters attack state
     carrier.getEnvelope().startStage(Envelope::ATTACK);
+    modulator.getEnvelope().startStage(Envelope::ATTACK);
 }
 
 void FMsynthesis::update()
@@ -50,6 +51,7 @@ void FMsynthesis::stopNote(float velocity, bool allowTrailOff)
 		clearCurrentNote();
 
     carrier.getEnvelope().startStage(Envelope::RELEASE);
+    modulator.getEnvelope().startStage(Envelope::RELEASE);
     //clearCurrentNote();
 }
 

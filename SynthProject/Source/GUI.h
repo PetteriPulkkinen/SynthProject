@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.1.2
+  Created with Projucer version: 5.1.1
 
   ------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@
                                                                     //[/Comments]
 */
 class GUI  : public Component,
-             public Slider::Listener
+             public SliderListener
 {
 public:
     //==============================================================================
@@ -61,7 +61,7 @@ public:
             DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
             SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
             RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
-            
+
             Envelope menv = voice->getModulator().getEnvelope();
             AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
             DMod->setValue(menv.getValue(Envelope::Stage::DECAY));

@@ -50,7 +50,7 @@ private:
     Stage currStage;
     double sampleRate;
     double currLevel;
-    const double minLevel = 0.01;
+    const double minLevel = 0.0001;
     double multiplier;
     unsigned long long int currStageLen; //in samples
     unsigned long long int stageSampleCounter;

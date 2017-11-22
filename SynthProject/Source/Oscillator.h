@@ -19,8 +19,8 @@
  
 #include "../JuceLibraryCode/JuceHeader.h"
 
-/*#define _USE_MATH_DEFINES // for C++  
-#include <cmath>*/ 
+//#define _USE_MATH_DEFINES // for C++  
+//#include <cmath>
 
 
 class Oscillator

@@ -28,7 +28,7 @@ const float Oscillator::getNextValue()
     float ret = amplitude*retVal;
     
     if (ADSR.zeroValues())
-        return ret;
+        return 0;
         
     return ret*ADSR.nextSample();
     
