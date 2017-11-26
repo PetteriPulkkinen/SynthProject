@@ -28,9 +28,10 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI ()
+GUI::GUI (MidiKeyboardState& state) : keyboardComponent (state, MidiKeyboardComponent::horizontalKeyboard)
 {
     //[Constructor_pre] You can add your own custom stuff here..
+    addAndMakeVisible(keyboardComponent);
     //[/Constructor_pre]
 
     addAndMakeVisible (DMod = new Slider ("decay_modulator"));
@@ -417,6 +418,7 @@ void GUI::resized()
     label17->setBounds (652, 340, 24, 24);
     label18->setBounds (700, 340, 24, 24);
     //[UserResized] Add your own custom resize handling here..
+    keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     //[/UserResized]
 }
 

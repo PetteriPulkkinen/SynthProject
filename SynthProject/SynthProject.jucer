@@ -3,7 +3,7 @@
 <JUCERPROJECT id="Ox52GE" name="SynthProject" displaySplashScreen="1" reportAppUsage="1"
               splashScreenColour="Dark" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.SynthProject" includeBinaryInAppConfig="1"
-              cppLanguageStandard="11" jucerVersion="5.1.1">
+              cppLanguageStandard="11" jucerVersion="5.1.2">
   <MAINGROUP id="LOHpgk" name="SynthProject">
     <GROUP id="{4FC817DB-4556-D5AF-D781-E3A6B91D0332}" name="Source">
       <FILE id="YBEVZt" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>

@@ -20,7 +20,7 @@ class MainContentComponent   : public AudioAppComponent
 {
 public:
     //==============================================================================
-    MainContentComponent() : keyboardComponent (keyboardState, MidiKeyboardComponent::horizontalKeyboard)
+    MainContentComponent() : GraphicalUI(keyboardState)
     {
         setAudioChannels(0, 2);
         setSize (800, 600);		//ikkunan koko 800x600
@@ -36,7 +36,6 @@ public:
         FMSynth.addSound(new SynthSound());
         
         addAndMakeVisible(GraphicalUI);
-        addAndMakeVisible(keyboardComponent);
         // GUI:n pointterin arvot tahan
         GraphicalUI.init(&FMSynth);
         GraphicalUI.init2(&filterR);
@@ -122,7 +121,6 @@ public:
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
-        keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     }
     
     
@@ -131,8 +129,7 @@ private:
 
     // Your private member variables go here...
     GUI GraphicalUI;
-    MidiKeyboardState keyboardState;			// midi komponentin näppäinten tila
-    MidiKeyboardComponent keyboardComponent;	// midi komponentti
+    MidiKeyboardState keyboardState;			// midi komponentin näppäinten tila	// midi komponentti
     MidiMessageCollector midiCollector;
 	// ks. https://juce.com/doc/classSynthesiser
     Synthesiser FMSynth;

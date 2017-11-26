@@ -40,7 +40,7 @@ class GUI  : public Component,
 {
 public:
     //==============================================================================
-    GUI ();
+    GUI (MidiKeyboardState& state);
     ~GUI();
 
     //==============================================================================
@@ -101,7 +101,7 @@ private:
 	IIRFilter* filterRR;
 	IIRFilter* filterLL;
 	double* samplausrate;	// double pointteri ja pelkka "samplausrate" palauttaa muistiosoitteen joka on tyyliin 00x....
-							// itse double arvo saadaan ottamalla *samplausrate (?)
+    MidiKeyboardComponent keyboardComponent;						// itse double arvo saadaan ottamalla *samplausrate (?)
 
 
     //[/UserVariables]
