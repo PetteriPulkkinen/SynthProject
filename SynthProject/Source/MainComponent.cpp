@@ -9,6 +9,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "GUI.h"
 #include "SynthVoice.h"
+#include "Oscillator.h"
 
 //==============================================================================
 /*
@@ -20,7 +21,7 @@ class MainContentComponent   : public AudioAppComponent
 {
 public:
     //==============================================================================
-    MainContentComponent() : GraphicalUI(keyboardState)
+    MainContentComponent() : GraphicalUI(keyboardState, &FMSynth, &cutoff, &Q, &samplausrate)
     {
         setAudioChannels(0, 2);
         setSize (800, 600);		//ikkunan koko 800x600
@@ -37,7 +38,7 @@ public:
         
         addAndMakeVisible(GraphicalUI);
         // GUI:n pointterin arvot tahan
-        GraphicalUI.init(&FMSynth);
+        GraphicalUI.init(&FMSynth,&cutoff,&Q,&samplausrate);
         GraphicalUI.init2(&filterR);
         GraphicalUI.init3(&filterL);
         GraphicalUI.init4(&samplausrate);
@@ -70,16 +71,22 @@ public:
         FMSynth.setCurrentPlaybackSampleRate(sampleRate);
 		// cutoff ja Q ei oo private variable (eli niihin paastaan myos filen ulkopuolella (?))
 		// mutta toisaalta tassa on kyse prepareToPlay eli niiden muuttaminen lennosta...?
-        double cutoff = 1000;		
-        double Q = 1;
+        cutoff = 1000;
+        Q = 1;
 		samplausrate = sampleRate;
 
 		// ks. https://juce.com/doc/classIIRCoefficients 
 		// palauttaa lowpassin parametrit
-        IIRCoefficients coefficients  = IIRCoefficients::makeLowPass(sampleRate, cutoff, Q);
+        //IIRCoefficients coefficients  = IIRCoefficients::makeLowPass(sampleRate, cutoff, Q);
         // luodaan lowpass filterit
-        filterR.setCoefficients(coefficients);
-        filterL.setCoefficients(coefficients);
+        //filterR.setCoefficients(coefficients);
+        //filterL.setCoefficients(coefficients);
+        LFO.initialize(sampleRate);
+        LFO.setAmplitude(1000);
+        LFO.setFrequency(10);
+        LFO.getEnvelope().updateValues(1, Envelope::SUSTAIN);
+        LFO.getEnvelope().startStage(Envelope::SUSTAIN);
+        
     }
     
     void releaseResources() override
@@ -97,8 +104,17 @@ public:
         // audio-äänen teko (renderextBlock jokaisella loopilla, ks. Synthvoice.cpp ja sit oscillator.cpp)
         FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
         // ja lopuksi niiden filterointi (processSamples)
+        for (int i = 0; i < bufferToFill.buffer->getNumSamples(); i++){
+            IIRCoefficients coeff = IIRCoefficients::makeLowPass(samplausrate, std::abs(cutoff+LFO.getNextValue()),Q);
+            filterR.setCoefficients(coeff);
+            filterL.setCoefficients(coeff);
+            *bufferToFill.buffer->getWritePointer(0, i) = filterL.processSingleSampleRaw(*bufferToFill.buffer->getReadPointer(0, i));
+            *bufferToFill.buffer->getWritePointer(1, i) = filterR.processSingleSampleRaw(*bufferToFill.buffer->getReadPointer(1, i));
+        }
+        /*
         filterL.processSamples(bufferToFill.buffer->getWritePointer(0, 0), bufferToFill.numSamples);
         filterR.processSamples(bufferToFill.buffer->getWritePointer(1, 0), bufferToFill.numSamples);
+         */
         /*
         for (int i = 0; i < 5; i++){
            std::cout << filterL.getCoefficients().coefficients[i] << std::endl;
@@ -133,14 +149,26 @@ private:
     MidiMessageCollector midiCollector;
 	// ks. https://juce.com/doc/classSynthesiser
     Synthesiser FMSynth;
-
+    Oscillator LFO;
 	// ks. https://juce.com/doc/classIIRFilter 
 	// ei luoda konstruktorissa mutta preparetoplayssa (why? samplerate?)
     IIRFilter filterR;
     IIRFilter filterL;
+    double cutoff;
+    double Q;
+    
 	// otetaan arvo talteen jotta voidaan kasitella GUI:n filterissa
 	double samplausrate;
     
+    typedef struct parameters
+    {
+        Synthesiser FMsynth;
+        Oscillator LFO;
+        double cutoff;
+        double Q;
+        
+        
+    } Parameters;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

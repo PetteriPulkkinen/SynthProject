@@ -25,12 +25,33 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+/*GUI::GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) : keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)*/
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI(MidiKeyboardState& state): keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)
+GUI::GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) : keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)
 {
     //[Constructor_pre] You can add your own custom stuff here..
+
+    this->synth = synth;
+    for (int i = 0; i < synth->getNumVoices(); i++){
+        FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+        Envelope cenv = voice->getCarrier().getEnvelope();
+        ACarr->setValue(cenv.getValue(Envelope::Stage::ATTACK));
+        DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
+        SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
+        RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
+
+        Envelope menv = voice->getModulator().getEnvelope();
+        AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
+        DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
+        SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
+        RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
+    }
+    cutoff = cutoff;
+    Q = Q;
+    samplausrate = samplingRate;
+
     addAndMakeVisible(keyboardComponent);
     //[/Constructor_pre]
 
@@ -291,6 +312,36 @@ GUI::GUI(MidiKeyboardState& state): keyboardComponent(state, MidiKeyboardCompone
     label18->setColour (TextEditor::textColourId, Colours::black);
     label18->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (LFOamp = new Slider ("new slider"));
+    LFOamp->setRange (0, 2000, 0);
+    LFOamp->setSliderStyle (Slider::Rotary);
+    LFOamp->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
+    LFOamp->addListener (this);
+    LFOamp->setSkewFactor (0.25);
+
+    addAndMakeVisible (LFOfreq = new Slider ("new slider"));
+    LFOfreq->setRange (0, 100, 0);
+    LFOfreq->setSliderStyle (Slider::Rotary);
+    LFOfreq->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
+    LFOfreq->addListener (this);
+    LFOfreq->setSkewFactor (0.25);
+
+    addAndMakeVisible (label19 = new Label ("new label",
+                                            TRANS("LFO amplitude\n")));
+    label19->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label19->setJustificationType (Justification::centredLeft);
+    label19->setEditable (false, false, false);
+    label19->setColour (TextEditor::textColourId, Colours::black);
+    label19->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (label20 = new Label ("new label",
+                                            TRANS("LFO frequency")));
+    label20->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+    label20->setJustificationType (Justification::centredLeft);
+    label20->setEditable (false, false, false);
+    label20->setColour (TextEditor::textColourId, Colours::black);
+    label20->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     slider12->setValue(1000);
@@ -345,6 +396,10 @@ GUI::~GUI()
     label16 = nullptr;
     label17 = nullptr;
     label18 = nullptr;
+    LFOamp = nullptr;
+    LFOfreq = nullptr;
+    label19 = nullptr;
+    label20 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -417,6 +472,10 @@ void GUI::resized()
     label16->setBounds (604, 340, 24, 24);
     label17->setBounds (652, 340, 24, 24);
     label18->setBounds (700, 340, 24, 24);
+    LFOamp->setBounds (480, 72, 180, 100);
+    LFOfreq->setBounds (616, 72, 180, 100);
+    label19->setBounds (520, 48, 112, 24);
+    label20->setBounds (656, 48, 150, 24);
     //[UserResized] Add your own custom resize handling here..
     keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     //[/UserResized]
@@ -529,23 +588,14 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
 		*/
 		// nyt on suurin osa erroreista hoidettu slidereiden setRangedilla PAITSI tuo <= sampleRate*0.5,
 		// eli errorii tulee jos slider12 vaannetaan yli 0.5*samplerate
-		cutofff = slider12->getValue();
-		QQ = slider13->getValue();		// luetaan samalla QQ:lle arvo, jotta se ois varmasti alustettu (jos ei oo alustettu, niin error)
-		IIRCoefficients coefficients = IIRCoefficients::makeLowPass(*samplausrate, cutofff, QQ);
-		// right ja left filtereiden teko, nama pitaisi paivittya MainComponenttiin getNextAudioblockin edetessa
-		(*filterRR).setCoefficients(coefficients);
-		(*filterLL).setCoefficients(coefficients);
+        *cutoff = slider12->getValue();
         //[/UserSliderCode_slider12]
     }
     else if (sliderThatWasMoved == slider13)
     {
         //[UserSliderCode_slider13] -- add your slider handling code here..
 		// hieman sama homma kuin slider12 tapauksessa
-		QQ = slider13->getValue();
-		cutofff = slider12->getValue();		// luetaan samalla cutoffille arvo, jotta se ois varmasti alustettu
-		IIRCoefficients coefficients = IIRCoefficients::makeLowPass(*samplausrate, cutofff, QQ);
-		(*filterRR).setCoefficients(coefficients);
-		(*filterLL).setCoefficients(coefficients);
+        *Q = slider13->getValue();
         //[/UserSliderCode_slider13]
     }
     else if (sliderThatWasMoved == MGslider)
@@ -601,6 +651,16 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
             voice->setMasterLevel(Master->getValue());
         }
         //[/UserSliderCode_Master]
+    }
+    else if (sliderThatWasMoved == LFOamp)
+    {
+        //[UserSliderCode_LFOamp] -- add your slider handling code here..
+        //[/UserSliderCode_LFOamp]
+    }
+    else if (sliderThatWasMoved == LFOfreq)
+    {
+        //[UserSliderCode_LFOfreq] -- add your slider handling code here..
+        //[/UserSliderCode_LFOfreq]
     }
 
     //[UsersliderValueChanged_Post]
@@ -808,6 +868,24 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="R" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="36"/>
+  <SLIDER name="new slider" id="157fdc80e9c9a930" memberName="LFOamp" virtualName=""
+          explicitFocusOrder="0" pos="480 72 180 100" min="0" max="2000"
+          int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="15" skewFactor="0.25" needsCallback="1"/>
+  <SLIDER name="new slider" id="95af64a224c04263" memberName="LFOfreq"
+          virtualName="" explicitFocusOrder="0" pos="616 72 180 100" min="0"
+          max="100" int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="15" skewFactor="0.25" needsCallback="1"/>
+  <LABEL name="new label" id="980c30226afa9fdd" memberName="label19" virtualName=""
+         explicitFocusOrder="0" pos="520 48 112 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="LFO amplitude&#10;" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
+  <LABEL name="new label" id="7ab0cd232f6cc0ff" memberName="label20" virtualName=""
+         explicitFocusOrder="0" pos="656 48 150 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="LFO frequency" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

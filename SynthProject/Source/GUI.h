@@ -40,7 +40,7 @@ class GUI  : public Component,
 {
 public:
     //==============================================================================
-    GUI (MidiKeyboardState& state);
+    GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate);
     ~GUI();
 
     //==============================================================================
@@ -51,7 +51,7 @@ public:
 	// init function for GUI which could be used to transfer device pointers from mainComponent to GUI.
 	// synan pointteri, ks. https://juce.com/doc/classSynthesiser
 	// tietty luotu aani saadaan synth->getVoice(i)
-    void init(Synthesiser* synth){
+    void init(Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) {
         this->synth = synth;
         DBG("GUI init");
         for (int i = 0; i < synth->getNumVoices(); i++){
@@ -68,6 +68,9 @@ public:
             SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
             RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
         }
+        this->cutoff = cutoff;
+        this->Q = Q;
+        samplausrate = samplingRate;
     }
 	// samalla tavalla tuodaan filterit ja samplin rate
 	void init2(IIRFilter* r) {
@@ -101,7 +104,9 @@ private:
 	IIRFilter* filterRR;
 	IIRFilter* filterLL;
 	double* samplausrate;	// double pointteri ja pelkka "samplausrate" palauttaa muistiosoitteen joka on tyyliin 00x....
-    MidiKeyboardComponent keyboardComponent;						// itse double arvo saadaan ottamalla *samplausrate (?)
+    MidiKeyboardComponent keyboardComponent;
+    double* cutoff;
+    double* Q;// itse double arvo saadaan ottamalla *samplausrate (?)
 
 
     //[/UserVariables]
@@ -143,6 +148,10 @@ private:
     ScopedPointer<Label> label16;
     ScopedPointer<Label> label17;
     ScopedPointer<Label> label18;
+    ScopedPointer<Slider> LFOamp;
+    ScopedPointer<Slider> LFOfreq;
+    ScopedPointer<Label> label19;
+    ScopedPointer<Label> label20;
 
 
     //==============================================================================
