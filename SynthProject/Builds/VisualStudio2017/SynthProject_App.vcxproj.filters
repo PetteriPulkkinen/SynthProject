@@ -2148,6 +2148,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\myDevices.h">
+      <Filter>SynthProject\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Envelope.h">
       <Filter>SynthProject\Source</Filter>
     </ClInclude>

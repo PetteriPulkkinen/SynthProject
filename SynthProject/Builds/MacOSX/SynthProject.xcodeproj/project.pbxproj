@@ -99,8 +99,10 @@
 		E21E4E1C1BA3539CFAC63275 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SynthSound.h; path = ../../Source/SynthSound.h; sourceTree = "SOURCE_ROOT"; };
 		E5A28552F05A535CAE69BD6C = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_basics"; path = "../../../../JUCE/modules/juce_audio_basics"; sourceTree = "SOURCE_ROOT"; };
 		F22447AC34FA3A389A939AEE = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_gui_basics"; path = "../../../../JUCE/modules/juce_gui_basics"; sourceTree = "SOURCE_ROOT"; };
+		F38D1957957181E524DDA496 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = myDevices.h; path = ../../Source/myDevices.h; sourceTree = "SOURCE_ROOT"; };
 		FA196743DB369909313F22C7 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_core"; path = "../../../../JUCE/modules/juce_core"; sourceTree = "SOURCE_ROOT"; };
 		CD53BE60E0DDF7C500804346 = {isa = PBXGroup; children = (
+					F38D1957957181E524DDA496,
 					20414E316F57DC7B8C2EC609,
 					0A3AC9B3A2D3AD1BA04E6BDA,
 					9291731F1919085CB6363459,

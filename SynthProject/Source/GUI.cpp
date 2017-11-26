@@ -29,28 +29,14 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) : keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)
+GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
     //[Constructor_pre] You can add your own custom stuff here..
-
-    this->synth = synth;
-    for (int i = 0; i < synth->getNumVoices(); i++){
-        FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
-        Envelope cenv = voice->getCarrier().getEnvelope();
-        ACarr->setValue(cenv.getValue(Envelope::Stage::ATTACK));
-        DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
-        SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
-        RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
-
-        Envelope menv = voice->getModulator().getEnvelope();
-        AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
-        DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
-        SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
-        RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
-    }
-    cutoff = cutoff;
-    Q = Q;
-    samplausrate = samplingRate;
+    devices = myDevices;
+    this->synth = &myDevices->FMSynth;
+    this->cutoff = &myDevices->cutoff;
+    this->Q = &myDevices->Q;
+    samplausrate = &myDevices->samplingRate;
 
     addAndMakeVisible(keyboardComponent);
     //[/Constructor_pre]
@@ -344,14 +330,15 @@ GUI::GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q
 
 
     //[UserPreSize]
-    slider12->setValue(1000);
-    Master->setValue(1);
+    
     //[/UserPreSize]
 
     setSize (800, 600);
 
 
     //[Constructor] You can add your own custom stuff here..
+    
+    
     //[/Constructor]
 }
 
@@ -655,11 +642,13 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == LFOamp)
     {
         //[UserSliderCode_LFOamp] -- add your slider handling code here..
+        devices->LFO.setAmplitude(LFOamp->getValue());
         //[/UserSliderCode_LFOamp]
     }
     else if (sliderThatWasMoved == LFOfreq)
     {
         //[UserSliderCode_LFOfreq] -- add your slider handling code here..
+        devices->LFO.setFrequency(LFOfreq->getValue());
         //[/UserSliderCode_LFOfreq]
     }
 
@@ -670,6 +659,28 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+void GUI::setSliderValues(){
+    slider12->setValue(devices->cutoff);
+    Master->setValue(1);
+    std::cout << "Set slider values " << std::endl;
+    for (int i = 0; i < synth->getNumVoices(); i++){
+        FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
+        Envelope cenv = voice->getCarrier().getEnvelope();
+        std::cout << "gey" << std::endl;
+        ACarr->setValue(cenv.getValue(Envelope::Stage::ATTACK));
+        DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
+        SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
+        RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
+        
+        Envelope menv = voice->getModulator().getEnvelope();
+        AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
+        DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
+        SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
+        RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
+    }
+    this->LFOamp->setValue(devices->LFO.getAmplitude());
+    this->LFOfreq->setValue(devices->LFO.getFrequency());
+}
 //[/MiscUserCode]
 
 

@@ -25,6 +25,7 @@ void Envelope::init(double fs)
     values[DECAY] = 0.5;
     values[SUSTAIN] = 0.5;
     values[RELEASE] = 1;
+    std::cout << "Envelope init" << std::endl;
 }
 
 bool Envelope::zeroValues() const{

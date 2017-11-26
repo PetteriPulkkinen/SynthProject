@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/GUI.cpp"
-            timestampString = "533407820.856043"
+            timestampString = "533411091.719726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "GUI::GUI(MidiKeyboardState&amp; state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate)"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "GUI::GUI(Devices* myDevices)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/MainComponent.cpp"
-            timestampString = "533406925.219829"
+            timestampString = "533412380.047759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "class MainContentComponent"
             landmarkType = "3">
          </BreakpointContent>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/GUI.cpp"
-            timestampString = "533407820.856043"
+            timestampString = "533411091.719726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
-            landmarkName = "GUI::GUI(MidiKeyboardState&amp; state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate)"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "GUI::GUI(Devices* myDevices)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/GUI.h"
-            timestampString = "533407510.999141"
+            timestampString = "533410643.278137"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140">
+            startingLineNumber = "111"
+            endingLineNumber = "111">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/MainComponent.cpp"
-            timestampString = "533406957.938837"
+            timestampString = "533412380.047759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "class MainContentComponent"
             landmarkType = "3">
          </BreakpointContent>

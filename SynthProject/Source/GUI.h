@@ -23,6 +23,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Envelope.h"
 #include "SynthVoice.h"
+#include "myDevices.h"
 //[/Headers]
 
 
@@ -40,7 +41,7 @@ class GUI  : public Component,
 {
 public:
     //==============================================================================
-    GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate);
+    GUI(Devices* myDevices);
     ~GUI();
 
     //==============================================================================
@@ -51,38 +52,8 @@ public:
 	// init function for GUI which could be used to transfer device pointers from mainComponent to GUI.
 	// synan pointteri, ks. https://juce.com/doc/classSynthesiser
 	// tietty luotu aani saadaan synth->getVoice(i)
-    void init(Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) {
-        this->synth = synth;
-        DBG("GUI init");
-        for (int i = 0; i < synth->getNumVoices(); i++){
-            FMsynthesis* voice = (FMsynthesis*) synth->getVoice(i);
-            Envelope cenv = voice->getCarrier().getEnvelope();
-            ACarr->setValue(cenv.getValue(Envelope::Stage::ATTACK));
-            DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
-            SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
-            RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
-
-            Envelope menv = voice->getModulator().getEnvelope();
-            AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
-            DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
-            SMod->setValue(menv.getValue(Envelope::Stage::SUSTAIN));
-            RMod->setValue(menv.getValue(Envelope::Stage::RELEASE));
-        }
-        this->cutoff = cutoff;
-        this->Q = Q;
-        samplausrate = samplingRate;
-    }
 	// samalla tavalla tuodaan filterit ja samplin rate
-	void init2(IIRFilter* r) {
-		this->filterRR = r;
-	}
-	void init3(IIRFilter* l) {
-		this->filterLL = l;
-	}
-	void init4(double* s) {
-		this->samplausrate = s;
-	}
-
+    void setSliderValues();
 
     //[/UserMethods]
 
@@ -107,7 +78,7 @@ private:
     MidiKeyboardComponent keyboardComponent;
     double* cutoff;
     double* Q;// itse double arvo saadaan ottamalla *samplausrate (?)
-
+    Devices* devices;
 
     //[/UserVariables]
 

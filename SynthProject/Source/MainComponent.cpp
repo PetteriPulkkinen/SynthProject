@@ -10,6 +10,7 @@
 #include "GUI.h"
 #include "SynthVoice.h"
 #include "Oscillator.h"
+#include "myDevices.h"
 
 //==============================================================================
 /*
@@ -21,27 +22,22 @@ class MainContentComponent   : public AudioAppComponent
 {
 public:
     //==============================================================================
-    MainContentComponent() : GraphicalUI(keyboardState, &FMSynth, &cutoff, &Q, &samplausrate)
+    MainContentComponent() : GraphicalUI(&myDevices)
     {
         setAudioChannels(0, 2);
         setSize (800, 600);		//ikkunan koko 800x600
         // specify the number of input and output channels that we want to open
         
         // ks. https://juce.com/doc/classSynthesiser
-        FMSynth.addVoice(new FMsynthesis());
-        FMSynth.addVoice(new FMsynthesis());
-        FMSynth.addVoice(new FMsynthesis());
-        FMSynth.addVoice(new FMsynthesis());
-        
-        FMSynth.clearSounds();
-        FMSynth.addSound(new SynthSound());
+        myDevices.FMSynth.addVoice(new FMsynthesis());
+        myDevices.FMSynth.addVoice(new FMsynthesis());
+        myDevices.FMSynth.addVoice(new FMsynthesis());
+        myDevices.FMSynth.addVoice(new FMsynthesis());
+        myDevices.FMSynth.clearSounds();
+        myDevices.FMSynth.addSound(new SynthSound());
         
         addAndMakeVisible(GraphicalUI);
-        // GUI:n pointterin arvot tahan
-        GraphicalUI.init(&FMSynth,&cutoff,&Q,&samplausrate);
-        GraphicalUI.init2(&filterR);
-        GraphicalUI.init3(&filterL);
-        GraphicalUI.init4(&samplausrate);
+        //
         
 		// listaa kaikki tarjolla olevat midi laitteet
         const StringArray midiInputs(MidiInput::getDevices());
@@ -56,6 +52,7 @@ public:
             }
         }
         deviceManager.addMidiInputCallback(String(), &midiCollector);
+        GraphicalUI.setSliderValues();
     }
 
     ~MainContentComponent()
@@ -68,12 +65,12 @@ public:
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
     {
         midiCollector.reset(sampleRate);
-        FMSynth.setCurrentPlaybackSampleRate(sampleRate);
+        myDevices.FMSynth.setCurrentPlaybackSampleRate(sampleRate);
 		// cutoff ja Q ei oo private variable (eli niihin paastaan myos filen ulkopuolella (?))
 		// mutta toisaalta tassa on kyse prepareToPlay eli niiden muuttaminen lennosta...?
-        cutoff = 1000;
-        Q = 1;
-		samplausrate = sampleRate;
+        myDevices.cutoff = 1000;
+        myDevices.Q = 1;
+		myDevices.samplingRate = sampleRate;
 
 		// ks. https://juce.com/doc/classIIRCoefficients 
 		// palauttaa lowpassin parametrit
@@ -81,12 +78,11 @@ public:
         // luodaan lowpass filterit
         //filterR.setCoefficients(coefficients);
         //filterL.setCoefficients(coefficients);
-        LFO.initialize(sampleRate);
-        LFO.setAmplitude(1000);
-        LFO.setFrequency(10);
-        LFO.getEnvelope().updateValues(1, Envelope::SUSTAIN);
-        LFO.getEnvelope().startStage(Envelope::SUSTAIN);
-        
+        myDevices.LFO.initialize(sampleRate);
+        myDevices.LFO.setAmplitude(1000);
+        myDevices.LFO.setFrequency(10);
+        myDevices.LFO.getEnvelope().updateValues(1, Envelope::SUSTAIN);
+        myDevices.LFO.getEnvelope().startStage(Envelope::SUSTAIN);
     }
     
     void releaseResources() override
@@ -100,26 +96,18 @@ public:
         MidiBuffer incomingMidi;
         midiCollector.removeNextBlockOfMessages(incomingMidi, bufferToFill.numSamples);
         
-        keyboardState.processNextMidiBuffer(incomingMidi, 0, bufferToFill.numSamples, true);
+        myDevices.keyboardState.processNextMidiBuffer(incomingMidi, 0, bufferToFill.numSamples, true);
         // audio-äänen teko (renderextBlock jokaisella loopilla, ks. Synthvoice.cpp ja sit oscillator.cpp)
-        FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
+        myDevices.FMSynth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
         // ja lopuksi niiden filterointi (processSamples)
         for (int i = 0; i < bufferToFill.buffer->getNumSamples(); i++){
-            IIRCoefficients coeff = IIRCoefficients::makeLowPass(samplausrate, std::abs(cutoff+LFO.getNextValue()),Q);
+            IIRCoefficients coeff = IIRCoefficients::makeLowPass(myDevices.samplingRate, std::abs(myDevices.cutoff+myDevices.LFO.getNextValue()),myDevices.Q);
             filterR.setCoefficients(coeff);
             filterL.setCoefficients(coeff);
             *bufferToFill.buffer->getWritePointer(0, i) = filterL.processSingleSampleRaw(*bufferToFill.buffer->getReadPointer(0, i));
             *bufferToFill.buffer->getWritePointer(1, i) = filterR.processSingleSampleRaw(*bufferToFill.buffer->getReadPointer(1, i));
         }
-        /*
-        filterL.processSamples(bufferToFill.buffer->getWritePointer(0, 0), bufferToFill.numSamples);
-        filterR.processSamples(bufferToFill.buffer->getWritePointer(1, 0), bufferToFill.numSamples);
-         */
-        /*
-        for (int i = 0; i < 5; i++){
-           std::cout << filterL.getCoefficients().coefficients[i] << std::endl;
-        }
-        */
+
     }
 
     //==============================================================================
@@ -145,31 +133,26 @@ private:
 
     // Your private member variables go here...
     GUI GraphicalUI;
-    MidiKeyboardState keyboardState;			// midi komponentin näppäinten tila	// midi komponentti
+    //MidiKeyboardState keyboardState;			// midi komponentin näppäinten tila	// midi komponentti
     MidiMessageCollector midiCollector;
 	// ks. https://juce.com/doc/classSynthesiser
+    /*
     Synthesiser FMSynth;
     Oscillator LFO;
 	// ks. https://juce.com/doc/classIIRFilter 
-	// ei luoda konstruktorissa mutta preparetoplayssa (why? samplerate?)
+	// ei luoda konstruktorissa mutta preparetoplayssa (why? samplerate?)*/
     IIRFilter filterR;
     IIRFilter filterL;
+    /*
     double cutoff;
     double Q;
     
 	// otetaan arvo talteen jotta voidaan kasitella GUI:n filterissa
-	double samplausrate;
+	double samplausrate;*/
     
-    typedef struct parameters
-    {
-        Synthesiser FMsynth;
-        Oscillator LFO;
-        double cutoff;
-        double Q;
-        
-        
-    } Parameters;
+    Devices myDevices;
     
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
