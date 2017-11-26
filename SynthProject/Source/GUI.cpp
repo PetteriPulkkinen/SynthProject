@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.1.1
+  Created with Projucer version: 5.1.2
 
   ------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI (MidiKeyboardState& state) : keyboardComponent (state, MidiKeyboardComponent::horizontalKeyboard)
+GUI::GUI(MidiKeyboardState& state): keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     addAndMakeVisible(keyboardComponent);
@@ -47,7 +47,7 @@ GUI::GUI (MidiKeyboardState& state) : keyboardComponent (state, MidiKeyboardComp
     SMod->addListener (this);
 
     addAndMakeVisible (RMod = new Slider ("release_modulator"));
-    RMod->setRange (0, 2, 0);
+    RMod->setRange (0, 8, 0);
     RMod->setSliderStyle (Slider::LinearVertical);
     RMod->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
     RMod->addListener (this);
@@ -71,7 +71,7 @@ GUI::GUI (MidiKeyboardState& state) : keyboardComponent (state, MidiKeyboardComp
     SCarr->addListener (this);
 
     addAndMakeVisible (RCarr = new Slider ("release_carrier"));
-    RCarr->setRange (0, 2, 0);
+    RCarr->setRange (0, 8, 0);
     RCarr->setSliderStyle (Slider::LinearVertical);
     RCarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
     RCarr->addListener (this);
@@ -642,7 +642,7 @@ BEGIN_JUCER_METADATA
           needsCallback="1"/>
   <SLIDER name="release_modulator" id="f8ae9f1895e9f7cb" memberName="RMod"
           virtualName="" explicitFocusOrder="0" pos="694 362 40 110" min="0"
-          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          max="8" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="attack_modulator" id="55065483c5cfda78" memberName="AMod"
@@ -662,7 +662,7 @@ BEGIN_JUCER_METADATA
           needsCallback="1"/>
   <SLIDER name="release_carrier" id="a84ab44e65d8e2a3" memberName="RCarr"
           virtualName="" explicitFocusOrder="0" pos="182 370 40 100" min="0"
-          max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
+          max="8" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="attack_carrier" id="8b3f507f3e828678" memberName="ACarr"

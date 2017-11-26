@@ -25,12 +25,10 @@ const float Oscillator::getNextValue()
     }
     phase += delta;
     
-    float ret = amplitude*retVal;
-    
     if (ADSR.zeroValues())
         return 0;
-        
-    return ret*ADSR.nextSample();
+    float ret = ADSR.nextSample()*retVal*amplitude;
+    return ret;
     
     //return amplitude*retVal*ADSR.nextSample();
 };

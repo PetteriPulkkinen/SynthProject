@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Oscillator.h"
 #include "SynthSound.h"
+#include <cmath>
 
 // ks. https://juce.com/doc/classSynthesiserVoice
 
@@ -66,7 +67,8 @@ public:
     }
     
     void setMasterLevel(float newMaster){
-        master = newMaster;
+        master = std::log((newMaster+1))/std::log(2);
+        
         changeFlag = true;
     }
     

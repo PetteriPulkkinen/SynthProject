@@ -10,6 +10,7 @@
 
 #include "Envelope.h"
 #include <cmath>
+#include <iostream>
 
 void Envelope::init(double fs)
 {
@@ -60,6 +61,7 @@ void Envelope::startStage(Stage s) {
         case DECAY:
             currLevel = 1.0;
             setMultiplier(currLevel, values[SUSTAIN], currStageLen);
+            std::cout<< "CurrLevel: " << currLevel << "values: " << values[SUSTAIN] << "currStageLen: " << currStageLen << std::endl;
             break;
             
         case SUSTAIN:
@@ -90,16 +92,23 @@ double Envelope::nextSample() {
             stageSampleCounter++;
         }
     }
-    return currLevel;
+    if (currLevel >= 0){
+        return currLevel;
+    }
+    else {
+        return 0;
+    }
 } // nextSample
 
 void Envelope::setMultiplier(double start, double end, unsigned long long int stageLen) {
     multiplier = 1 + (std::log(end/start)/(stageLen - 1));
-
 } // setMultiplier
 
 void Envelope::updateValues(double newVal, int s_int) {
 	Stage s = static_cast<Stage>(s_int);
+    if (s == SUSTAIN && newVal < 1e-10){
+        newVal = 1e-10;
+    }
     values[s] = newVal;
 } // updateValues
 

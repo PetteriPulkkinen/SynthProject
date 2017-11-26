@@ -26,7 +26,7 @@ void FMsynthesis::startNote(int midiNoteNumber, float velocity, SynthesiserSound
     double modulatorFrequency = MidiMessage::getMidiNoteInHertz(modulatorNote);
     
     modulator.setFrequency(modulatorFrequency);
-    carrier.setAmplitude(master*velocity);
+    carrier.setAmplitude(master*std::log(velocity+1)/std::log(2));
     
     //Envelope enters attack state
     carrier.getEnvelope().startStage(Envelope::ATTACK);
