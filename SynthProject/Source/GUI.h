@@ -24,6 +24,10 @@
 #include "Envelope.h"
 #include "SynthVoice.h"
 #include "myDevices.h"
+#include "Database.h"
+#include <vector>
+
+using std::vector;
 //[/Headers]
 
 
@@ -37,15 +41,18 @@
                                                                     //[/Comments]
 */
 class GUI  : public Component,
-             public Slider::Listener
+             public Slider::Listener,
+             public ComboBox::Listener,
+             public Button::Listener
 {
 public:
     //==============================================================================
-    GUI(Devices* myDevices);
+    GUI (Devices* myDevices);
     ~GUI();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    //GUI (Devices* myDevices);
 
     /* In this method you give all devices you want to modify from MainComponent. */
 
@@ -55,11 +62,20 @@ public:
 	// samalla tavalla tuodaan filterit ja samplin rate
     void setSliderValues();
 
+    typedef std::vector<ScopedPointer<Slider>*> SliderVector;
+
+    void saveSliderValues(int ID);
+    void loadSliderValues(int ID);
+    void updateSliderValues(int ID);
+    void removeSliderValues(int ID);
+    void regenerateCB();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
     void sliderValueChanged (Slider* sliderThatWasMoved) override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
 
 
@@ -79,6 +95,9 @@ private:
     double* cutoff;
     double* Q;// itse double arvo saadaan ottamalla *samplausrate (?)
     Devices* devices;
+    Database db;
+
+    SliderVector sliders;
 
     //[/UserVariables]
 
@@ -123,6 +142,10 @@ private:
     ScopedPointer<Slider> LFOfreq;
     ScopedPointer<Label> label19;
     ScopedPointer<Label> label20;
+    ScopedPointer<ComboBox> comboBox;
+    ScopedPointer<TextButton> textButton;
+    ScopedPointer<TextButton> textButton2;
+    ScopedPointer<TextButton> textButton3;
 
 
     //==============================================================================

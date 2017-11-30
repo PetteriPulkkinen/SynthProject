@@ -391,6 +391,9 @@
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>SynthProject\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Database.cpp">
+      <Filter>SynthProject</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\Documents\juce-huckleberry-windows\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
@@ -2165,6 +2168,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\GUI.h">
       <Filter>SynthProject\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Database.h">
+      <Filter>SynthProject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Documents\juce-huckleberry-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>Juce Modules\juce_audio_basics\audio_play_head</Filter>

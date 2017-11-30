@@ -20,6 +20,8 @@
       <FILE id="pidnd3" name="GUI.cpp" compile="1" resource="0" file="Source/GUI.cpp"/>
       <FILE id="JCS7tu" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
+    <FILE id="W5DPND" name="Database.cpp" compile="1" resource="0" file="Source/Database.cpp"/>
+    <FILE id="Jd893W" name="Database.h" compile="0" resource="0" file="Source/Database.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">

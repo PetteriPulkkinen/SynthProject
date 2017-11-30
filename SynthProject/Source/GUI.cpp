@@ -25,11 +25,11 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-/*GUI::GUI(MidiKeyboardState& state, Synthesiser* synth, double* cutoff, double* Q, double* samplingRate) : keyboardComponent(state, MidiKeyboardComponent::horizontalKeyboard)*/
+/*GUI::GUI (Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiKeyboardComponent::horizontalKeyboard)*/
 //[/MiscUserDefs]
 
 //==============================================================================
-GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiKeyboardComponent::horizontalKeyboard)
+GUI::GUI (Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     devices = myDevices;
@@ -39,6 +39,7 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     samplausrate = &myDevices->samplingRate;
 
     addAndMakeVisible(keyboardComponent);
+
     //[/Constructor_pre]
 
     addAndMakeVisible (DMod = new Slider ("decay_modulator"));
@@ -89,21 +90,21 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     ACarr->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
     ACarr->addListener (this);
 
-    addAndMakeVisible (slider5 = new Slider ("new slider"));
+    addAndMakeVisible (slider5 = new Slider ("mod_amp"));
     slider5->setRange (0, 20000, 0);
     slider5->setSliderStyle (Slider::Rotary);
     slider5->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
     slider5->addListener (this);
     slider5->setSkewFactor (0.2);
 
-    addAndMakeVisible (slider12 = new Slider ("new slider"));
+    addAndMakeVisible (slider12 = new Slider ("cutoff"));
     slider12->setRange (80, 16000, 0);
     slider12->setSliderStyle (Slider::Rotary);
     slider12->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     slider12->addListener (this);
     slider12->setSkewFactor (0.2);
 
-    addAndMakeVisible (slider13 = new Slider ("new slider"));
+    addAndMakeVisible (slider13 = new Slider ("lpQ"));
     slider13->setRange (1, 10, 0);
     slider13->setSliderStyle (Slider::Rotary);
     slider13->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
@@ -162,13 +163,13 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     label5->setColour (TextEditor::textColourId, Colours::black);
     label5->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (CNote = new Slider ("Carrier Note"));
+    addAndMakeVisible (CNote = new Slider ("Carrier_Note"));
     CNote->setRange (-24, 24, 1);
     CNote->setSliderStyle (Slider::IncDecButtons);
     CNote->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
     CNote->addListener (this);
 
-    addAndMakeVisible (MNote = new Slider ("Modulator note"));
+    addAndMakeVisible (MNote = new Slider ("Modulator_note"));
     MNote->setRange (-24, 24, 1);
     MNote->setSliderStyle (Slider::IncDecButtons);
     MNote->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
@@ -190,7 +191,7 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     Label7->setColour (TextEditor::textColourId, Colours::black);
     Label7->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (Octave = new Slider ("Octave slider"));
+    addAndMakeVisible (Octave = new Slider ("Octave_slider"));
     Octave->setRange (-4, 4, 1);
     Octave->setSliderStyle (Slider::IncDecButtons);
     Octave->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
@@ -204,7 +205,7 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     label8->setColour (TextEditor::textColourId, Colours::black);
     label8->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (Master = new Slider ("Master slider"));
+    addAndMakeVisible (Master = new Slider ("Master_slider"));
     Master->setRange (0, 1, 0.1);
     Master->setSliderStyle (Slider::LinearHorizontal);
     Master->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
@@ -298,14 +299,14 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     label18->setColour (TextEditor::textColourId, Colours::black);
     label18->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (LFOamp = new Slider ("new slider"));
+    addAndMakeVisible (LFOamp = new Slider ("lfo_amp"));
     LFOamp->setRange (0, 2000, 0);
     LFOamp->setSliderStyle (Slider::Rotary);
     LFOamp->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
     LFOamp->addListener (this);
     LFOamp->setSkewFactor (0.25);
 
-    addAndMakeVisible (LFOfreq = new Slider ("new slider"));
+    addAndMakeVisible (LFOfreq = new Slider ("lfo_freq"));
     LFOfreq->setRange (0, 100, 0);
     LFOfreq->setSliderStyle (Slider::Rotary);
     LFOfreq->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 15);
@@ -328,23 +329,62 @@ GUI::GUI(Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiK
     label20->setColour (TextEditor::textColourId, Colours::black);
     label20->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (comboBox = new ComboBox ("new combo box"));
+    comboBox->setEditableText (true);
+    comboBox->setJustificationType (Justification::centredLeft);
+    comboBox->setTextWhenNothingSelected (TRANS("Add sound"));
+    comboBox->setTextWhenNoChoicesAvailable (TRANS("Add sound"));
+    comboBox->addListener (this);
+
+    addAndMakeVisible (textButton = new TextButton ("new button"));
+    textButton->setButtonText (TRANS("Add"));
+    textButton->addListener (this);
+
+    addAndMakeVisible (textButton2 = new TextButton ("new button"));
+    textButton2->setButtonText (TRANS("Update"));
+    textButton2->addListener (this);
+
+    addAndMakeVisible (textButton3 = new TextButton ("new button"));
+    textButton3->setButtonText (TRANS("Delete"));
+    textButton3->addListener (this);
+
 
     //[UserPreSize]
-    
+
+    sliders.push_back(&DMod);
+    sliders.push_back(&SMod);
+    sliders.push_back(&RMod);
+    sliders.push_back(&AMod);
+    sliders.push_back(&DCarr);
+    sliders.push_back(&SCarr);
+    sliders.push_back(&RCarr);
+    sliders.push_back(&ACarr);
+    sliders.push_back(&slider5);
+    sliders.push_back(&slider12);
+    sliders.push_back(&slider13);
+    sliders.push_back(&MGslider);
+    sliders.push_back(&CGslider);
+    sliders.push_back(&CNote);
+    sliders.push_back(&MNote);
+    sliders.push_back(&Octave);
+    sliders.push_back(&Master);
+    sliders.push_back(&LFOamp);
+    sliders.push_back(&LFOfreq);
     //[/UserPreSize]
 
     setSize (800, 600);
 
 
     //[Constructor] You can add your own custom stuff here..
-    
-    
+    regenerateCB();
+
     //[/Constructor]
 }
 
 GUI::~GUI()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+    sliders.clear();
     //[/Destructor_pre]
 
     DMod = nullptr;
@@ -387,6 +427,10 @@ GUI::~GUI()
     LFOfreq = nullptr;
     label19 = nullptr;
     label20 = nullptr;
+    comboBox = nullptr;
+    textButton = nullptr;
+    textButton2 = nullptr;
+    textButton3 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -445,7 +489,7 @@ void GUI::resized()
     MNote->setBounds (152, 280, 100, 25);
     label6->setBounds (24, 256, 64, 24);
     Label7->setBounds (144, 256, 72, 24);
-    Octave->setBounds (688, 8, 100, 25);
+    Octave->setBounds (688, 8, 100, 24);
     label8->setBounds (632, 8, 56, 16);
     Master->setBounds (488, 8, 125, 25);
     label9->setBounds (424, 8, 150, 16);
@@ -463,6 +507,10 @@ void GUI::resized()
     LFOfreq->setBounds (616, 72, 180, 100);
     label19->setBounds (520, 48, 112, 24);
     label20->setBounds (656, 48, 150, 24);
+    comboBox->setBounds (56, 8, 150, 24);
+    textButton->setBounds (216, 8, 48, 24);
+    textButton2->setBounds (272, 8, 48, 24);
+    textButton3->setBounds (328, 8, 48, 24);
     //[UserResized] Add your own custom resize handling here..
     keyboardComponent.setBounds(0, getHeight()-getHeight()/6, getWidth(), getHeight()/6);
     //[/UserResized]
@@ -656,6 +704,68 @@ void GUI::sliderValueChanged (Slider* sliderThatWasMoved)
     //[/UsersliderValueChanged_Post]
 }
 
+void GUI::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+    //[UsercomboBoxChanged_Pre]
+    //[/UsercomboBoxChanged_Pre]
+
+    if (comboBoxThatHasChanged == comboBox)
+    {
+        //[UserComboBoxCode_comboBox] -- add your combo box handling code here..
+        int id = comboBoxThatHasChanged->getSelectedId();
+        std::cout << "Combobox changed and id: "<<  id<< std::endl;
+        if (id){
+            loadSliderValues(id);
+        }
+        //[/UserComboBoxCode_comboBox]
+    }
+
+    //[UsercomboBoxChanged_Post]
+    //[/UsercomboBoxChanged_Post]
+}
+
+void GUI::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == textButton)
+    {
+        //[UserButtonCode_textButton] -- add your button handler code here..
+        int id = comboBox->getNumItems()+1;
+        std::cout << id << std::endl;
+        saveSliderValues(id);
+        comboBox->clear();
+        regenerateCB();
+        //[/UserButtonCode_textButton]
+    }
+    else if (buttonThatWasClicked == textButton2)
+    {
+        //[UserButtonCode_textButton2] -- add your button handler code here..
+        //update button
+        int id = comboBox->getSelectedId();
+        if (id){
+            updateSliderValues(id);
+        }
+        //[/UserButtonCode_textButton2]
+    }
+    else if (buttonThatWasClicked == textButton3)
+    {
+        //[UserButtonCode_textButton3] -- add your button handler code here..
+        //remove button
+        int id = comboBox->getSelectedId();
+        if (id){
+            removeSliderValues(id);
+            comboBox->clear();
+            regenerateCB();
+        }
+        //[/UserButtonCode_textButton3]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
+}
+
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
@@ -671,7 +781,7 @@ void GUI::setSliderValues(){
         DCarr->setValue(cenv.getValue(Envelope::Stage::DECAY));
         SCarr->setValue(cenv.getValue(Envelope::Stage::SUSTAIN));
         RCarr->setValue(cenv.getValue(Envelope::Stage::RELEASE));
-        
+
         Envelope menv = voice->getModulator().getEnvelope();
         AMod->setValue(menv.getValue(Envelope::Stage::ATTACK));
         DMod->setValue(menv.getValue(Envelope::Stage::DECAY));
@@ -680,6 +790,64 @@ void GUI::setSliderValues(){
     }
     this->LFOamp->setValue(devices->LFO.getAmplitude());
     this->LFOfreq->setValue(devices->LFO.getFrequency());
+}
+
+void GUI::saveSliderValues(int ID)
+{
+    std::cout << "Saving sounds to ID: " << ID << std::endl;
+    std::cout << "Combobox elements: " << comboBox->getNumItems() << std::endl;
+
+    for (auto i : sliders){
+
+        //db.updateValue(ID, (*i)->getName().toStdString(), (*i)->getValue());
+
+        db.insertToDB(ID, (*i)->getName().toStdString(), (*i)->getValue());
+
+    }
+}
+
+void GUI::loadSliderValues(int ID)
+{
+    for (auto i : sliders){
+        try{
+            double value = db.getFromDB(ID, (*i)->getName().toStdString());
+            (*i)->setValue(value);
+        }
+        catch(string e){
+            DBG("Can't load the slider values");
+        }
+    }
+}
+
+void GUI::updateSliderValues(int ID)
+{
+    for (auto i : sliders){
+        try {
+            db.updateValue(ID, (*i)->getName().toStdString(), (*i)->getValue());
+        }
+        catch(string e){
+            DBG("Can't update the slider value.");
+        }
+    }
+}
+
+void GUI::removeSliderValues(int ID)
+{
+    try{
+        db.removeSound(ID);
+    }
+    catch(string msg){
+        std::cout << msg << std::endl;
+    }
+}
+
+void GUI::regenerateCB()
+{
+    vector<int> vec = db.getIDs();
+    
+    for (int i : vec){
+        comboBox->addItem("new item", i);
+    }
 }
 //[/MiscUserCode]
 
@@ -741,19 +909,19 @@ BEGIN_JUCER_METADATA
           max="2" int="0" style="LinearVertical" textBoxPos="TextBoxBelow"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="c00cedec3bec0b3a" memberName="slider5"
-          virtualName="" explicitFocusOrder="0" pos="56 80 150 150" min="0"
-          max="20000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2000000000000000111"
+  <SLIDER name="mod_amp" id="c00cedec3bec0b3a" memberName="slider5" virtualName=""
+          explicitFocusOrder="0" pos="56 80 150 150" min="0" max="20000"
+          int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="0.2000000000000000111"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="67919200e11f9bf" memberName="slider12"
-          virtualName="" explicitFocusOrder="0" pos="480 200 180 100" min="80"
-          max="16000" int="0" style="Rotary" textBoxPos="TextBoxBelow"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="15" skewFactor="0.2000000000000000111"
+  <SLIDER name="cutoff" id="67919200e11f9bf" memberName="slider12" virtualName=""
+          explicitFocusOrder="0" pos="480 200 180 100" min="80" max="16000"
+          int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="15" skewFactor="0.2000000000000000111"
           needsCallback="1"/>
-  <SLIDER name="new slider" id="b1e16e36f222738c" memberName="slider13"
-          virtualName="" explicitFocusOrder="0" pos="616 200 180 100" min="1"
-          max="10" int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+  <SLIDER name="lpQ" id="b1e16e36f222738c" memberName="slider13" virtualName=""
+          explicitFocusOrder="0" pos="616 200 180 100" min="1" max="10"
+          int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="15" skewFactor="1" needsCallback="1"/>
   <SLIDER name="ModulatorGain" id="c16b303c43bf1bf5" memberName="MGslider"
           virtualName="" explicitFocusOrder="0" pos="240 200 65 65" tooltip="Mood"
@@ -789,12 +957,12 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Q" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="33"/>
-  <SLIDER name="Carrier Note" id="44cf394519a99d3c" memberName="CNote"
+  <SLIDER name="Carrier_Note" id="44cf394519a99d3c" memberName="CNote"
           virtualName="" explicitFocusOrder="0" pos="32 280 100 25" min="-24"
           max="24" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
-  <SLIDER name="Modulator note" id="29f6189d75cefb5e" memberName="MNote"
+  <SLIDER name="Modulator_note" id="29f6189d75cefb5e" memberName="MNote"
           virtualName="" explicitFocusOrder="0" pos="152 280 100 25" min="-24"
           max="24" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
@@ -809,8 +977,8 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Modulator note" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="10" kerning="0" bold="0" italic="0" justification="33"/>
-  <SLIDER name="Octave slider" id="a20e4f22f1d8e98c" memberName="Octave"
-          virtualName="" explicitFocusOrder="0" pos="688 8 100 25" min="-4"
+  <SLIDER name="Octave_slider" id="a20e4f22f1d8e98c" memberName="Octave"
+          virtualName="" explicitFocusOrder="0" pos="688 8 100 24" min="-4"
           max="4" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
@@ -819,7 +987,7 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Octave&#10;" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
-  <SLIDER name="Master slider" id="a6a0247f868ec1e9" memberName="Master"
+  <SLIDER name="Master_slider" id="a6a0247f868ec1e9" memberName="Master"
           virtualName="" explicitFocusOrder="0" pos="488 8 125 25" min="0"
           max="1" int="0.10000000000000000555" style="LinearHorizontal"
           textBoxPos="TextBoxLeft" textBoxEditable="1" textBoxWidth="40"
@@ -879,13 +1047,13 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="R" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          kerning="0" bold="0" italic="0" justification="36"/>
-  <SLIDER name="new slider" id="157fdc80e9c9a930" memberName="LFOamp" virtualName=""
+  <SLIDER name="lfo_amp" id="157fdc80e9c9a930" memberName="LFOamp" virtualName=""
           explicitFocusOrder="0" pos="480 72 180 100" min="0" max="2000"
           int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="15" skewFactor="0.25" needsCallback="1"/>
-  <SLIDER name="new slider" id="95af64a224c04263" memberName="LFOfreq"
-          virtualName="" explicitFocusOrder="0" pos="616 72 180 100" min="0"
-          max="100" int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
+  <SLIDER name="lfo_freq" id="95af64a224c04263" memberName="LFOfreq" virtualName=""
+          explicitFocusOrder="0" pos="616 72 180 100" min="0" max="100"
+          int="0" style="Rotary" textBoxPos="TextBoxBelow" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="15" skewFactor="0.25" needsCallback="1"/>
   <LABEL name="new label" id="980c30226afa9fdd" memberName="label19" virtualName=""
          explicitFocusOrder="0" pos="520 48 112 24" edTextCol="ff000000"
@@ -897,6 +1065,18 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="LFO frequency" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
          fontsize="15" kerning="0" bold="0" italic="0" justification="33"/>
+  <COMBOBOX name="new combo box" id="fa3ffdf4bf207e43" memberName="comboBox"
+            virtualName="" explicitFocusOrder="0" pos="56 8 150 24" editable="1"
+            layout="33" items="" textWhenNonSelected="Add sound" textWhenNoItems="Add sound"/>
+  <TEXTBUTTON name="new button" id="878d73b5418e763" memberName="textButton"
+              virtualName="" explicitFocusOrder="0" pos="216 8 48 24" buttonText="Add"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="new button" id="1cc6b4734d5c6c11" memberName="textButton2"
+              virtualName="" explicitFocusOrder="0" pos="272 8 48 24" buttonText="Update"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="new button" id="f61b06c20c259853" memberName="textButton3"
+              virtualName="" explicitFocusOrder="0" pos="328 8 48 24" buttonText="Delete"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
