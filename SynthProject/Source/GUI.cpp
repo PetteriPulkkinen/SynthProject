@@ -713,7 +713,6 @@ void GUI::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     {
         //[UserComboBoxCode_comboBox] -- add your combo box handling code here..
         int id = comboBoxThatHasChanged->getSelectedId();
-        std::cout << "Combobox changed and id: "<<  id<< std::endl;
         if (id){
             loadSliderValues(id);
         }
@@ -746,6 +745,7 @@ void GUI::buttonClicked (Button* buttonThatWasClicked)
         int id = comboBox->getSelectedId();
         if (id){
             updateSliderValues(id);
+            std::cout << id << std::endl;
         }
         //[/UserButtonCode_textButton2]
     }
@@ -844,9 +844,8 @@ void GUI::removeSliderValues(int ID)
 void GUI::regenerateCB()
 {
     vector<int> vec = db.getIDs();
-    
     for (int i : vec){
-        comboBox->addItem("new item", i);
+        comboBox->addItem("Sound "+std::to_string(i), i);
     }
 }
 //[/MiscUserCode]

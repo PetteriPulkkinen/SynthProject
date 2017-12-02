@@ -142,7 +142,7 @@ void Database::updateValue(int ID, string name, double value)
 {
     stringstream ss;
     char *zErrMsg = 0;
-    ss << "UPDATE Sounds set value = " << value << ";";
+    ss << "UPDATE Sounds set value = " << value << " WHERE name = '"<<name<<"' and ID = " << ID <<";";
     
     string sql = ss.str();
     

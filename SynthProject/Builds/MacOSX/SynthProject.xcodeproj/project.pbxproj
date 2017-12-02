@@ -43,7 +43,7 @@
 		EB4848F1625F7F118076EE3A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFE17218D00B36A73761ADB /* AudioToolbox.framework */; };
 		EF976E41B66FB343E9FCF9B0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C17ABC4C3D9F696D0D1A176 /* Accelerate.framework */; };
 		F5CAADF4119CC04012BB89E6 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40DFA350DE50C9D35E7C0BD /* DiscRecording.framework */; };
-		F984DD4E1FD08DB1002DA164 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F984DD4D1FD08DB1002DA164 /* libsqlite3.0.tbd */; };
+		F93E38E31FD2DF4E00798CA4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F93E38E21FD2DF4E00798CA4 /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,7 +107,7 @@
 		E5A28552F05A535CAE69BD6C /* juce_audio_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_basics; path = ../../../../JUCE/modules/juce_audio_basics; sourceTree = SOURCE_ROOT; };
 		F22447AC34FA3A389A939AEE /* juce_gui_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_basics; path = ../../../../JUCE/modules/juce_gui_basics; sourceTree = SOURCE_ROOT; };
 		F38D1957957181E524DDA496 /* myDevices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = myDevices.h; path = ../../Source/myDevices.h; sourceTree = SOURCE_ROOT; };
-		F984DD4D1FD08DB1002DA164 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		F93E38E21FD2DF4E00798CA4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		FA196743DB369909313F22C7 /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = ../../../../JUCE/modules/juce_core; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -116,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F984DD4E1FD08DB1002DA164 /* libsqlite3.0.tbd in Frameworks */,
+				F93E38E31FD2DF4E00798CA4 /* libsqlite3.tbd in Frameworks */,
 				EF976E41B66FB343E9FCF9B0 /* Accelerate.framework in Frameworks */,
 				EB4848F1625F7F118076EE3A /* AudioToolbox.framework in Frameworks */,
 				E0597CA006128ED496DF4D7D /* AVFoundation.framework in Frameworks */,
@@ -243,7 +243,7 @@
 		F404BAA5B63E5CFA2C511E6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F984DD4D1FD08DB1002DA164 /* libsqlite3.0.tbd */,
+				F93E38E21FD2DF4E00798CA4 /* libsqlite3.tbd */,
 				7C17ABC4C3D9F696D0D1A176 /* Accelerate.framework */,
 				0CFE17218D00B36A73761ADB /* AudioToolbox.framework */,
 				74A91ED3B9E57EEB358F2CD0 /* AVFoundation.framework */,
