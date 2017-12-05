@@ -25,7 +25,10 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+
+// !!!! Below is commented the constructor if it has vanished !!!
 /*GUI::GUI (Devices* myDevices) : keyboardComponent(myDevices->keyboardState, MidiKeyboardComponent::horizontalKeyboard)*/
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -713,6 +716,7 @@ void GUI::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     {
         //[UserComboBoxCode_comboBox] -- add your combo box handling code here..
         int id = comboBoxThatHasChanged->getSelectedId();
+        std::cout << "Combobox changed and id: "<<  id<< std::endl;
         if (id){
             loadSliderValues(id);
         }
@@ -844,8 +848,9 @@ void GUI::removeSliderValues(int ID)
 void GUI::regenerateCB()
 {
     vector<int> vec = db.getIDs();
+
     for (int i : vec){
-        comboBox->addItem("Sound "+std::to_string(i), i);
+        comboBox->addItem("new item", i);
     }
 }
 //[/MiscUserCode]

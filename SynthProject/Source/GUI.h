@@ -52,6 +52,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    // !!! Below is the real contructor if it has vanished !!!
     //GUI (Devices* myDevices);
 
     /* In this method you give all devices you want to modify from MainComponent. */

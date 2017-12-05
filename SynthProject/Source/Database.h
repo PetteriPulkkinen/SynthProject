@@ -22,6 +22,8 @@ using std::stringstream;
 using std::vector;
 /*
  References: https://www.tutorialspoint.com/sqlite/sqlite_c_cpp.htm
+ 
+ To get the program build properly sqlite library needs to be installed and linked to the project.
  */
 
 class Database
